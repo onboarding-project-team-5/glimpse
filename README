@@ -3,7 +3,7 @@
 # 가상환경 구성 - OS가 달라서 장담은 못하지만 아래 명령어를 복붙하시면 될겁니다.
 python -m venv venv
 python -m pip install --upgrade pip
-pip install flask pymongo dnspython requests awsebcli certifi
+pip install flask pymongo dnspython requests awsebcli certifi pyjwt beautifulsoup4
 
 # template 파일 구성
 - Bootstrap CDN Link 추가
