@@ -1,10 +1,11 @@
 from flask import Flask, render_template
+from flask import request
 app = Flask(__name__)
 
 from pymongo import MongoClient
 from certifi import where
 
-DB_URL = '{DB URL 기입하시면 되요}'
+DB_URL = ''
 client = MongoClient(DB_URL, tlsCAFile=where())
 
 db = client.dbsparta
@@ -15,10 +16,70 @@ db = client.dbsparta
 def page_main():
     return render_template('index.html')
 
-# 회원가입, 로그인 페이지
+# 로그인 페이지
+@app.route('/login')
+def page_login():
+    return render_template('login.html')
+
+# 회원가입 페이지
 @app.route('/signup')
 def page_signup():
     return render_template('signup.html')
+
+# 로그인 Query
+@app.route('/api/login', methods=['POST'])
+def query_login():
+    id = request.form['id']
+    pw = request.form['pw']
+    
+    # 만약 빈 값으로 넘어온 것이 있으면 입력 촉구 메시지 띄움.
+    if id is None or not id.strip():
+        return {'msg': 'ID 값이 빈 칸으로 넘어왔습니다. 입력해주십시오.', 'error_code': 'NULL_ID'}, 406
+    if pw is None or not pw.strip():
+        return {'msg': 'PW 값이 빈 칸으로 넘어왔습니다. 입력해주십시오.', 'error_code': 'NULL_PW'}, 406
+    
+    # 해당 유저 조회
+    result = db.user_list.find_one({'user_id': id})
+    # 만약 유저가 존재하지 않으면 로그인 실패
+    if result is None:
+        return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
+    
+    # pw 대조
+    # 만약 비번이 틀리면 로그인 실패
+    if result['user_pw'] != pw:
+        return {'msg': '비밀 번호가 틀렸습니다. 정확한 Password를 입력해주세요.', 'error_code': 'WRONG_PASSWORD'}, 406
+    
+    return {'msg': '로그인 성공'}
+
+# 회원가입 Query
+@app.route('/api/signup', methods=['POST'])
+def query_signup():
+    id = request.form['id']
+    pw = request.form['pw']
+    name = request.form['name']
+    
+    # 만약 빈 값으로 넘어온 것이 있으면 입력 촉구 메시지 띄움.
+    if id is None or not id.strip():
+        return {'msg': 'ID 값이 빈 칸으로 넘어왔습니다. 입력해주십시오.', 'error_code': 'NULL_ID'}, 406
+    if pw is None or not pw.strip():
+        return {'msg': 'PW 값이 빈 칸으로 넘어왔습니다. 입력해주십시오.', 'error_code': 'NULL_PW'}, 406
+    if name is None or not name.strip():
+        return {'msg': 'NAME 값이 빈 칸으로 넘어왔습니다. 입력해주십시오.', 'error_code': 'NULL_NAME'}, 406
+    
+    # 해당 유저 조회
+    result = db.user_list.find_one({'user_id': id})
+    # 만약 존재한다면 회원 가입 실패. 이미 존재하는 유저라는 메시지 출력
+    if result is not None:
+        return {'msg': '이미 존재하는 유저입니다. 해당 ID로 로그인해주세요.', 'error_code': 'USER_ALREADY_EXISTED'}, 406
+    
+    # 해당 유저 저장.
+    doc = {
+        'user_name' : name,
+        'user_id' : id,
+        'user_pw' : pw,
+    }
+    db.user_list.insert_one(doc)
+    return {'msg': '회원 가입 성공'}
 
 # 개인 프로필 페이지
 @app.route('/profile/me')

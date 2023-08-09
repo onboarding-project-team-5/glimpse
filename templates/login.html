@@ -78,32 +78,32 @@
 
         <script>
             function handle_login() {
-                // 로그인 버튼 클릭 시, 로그인 페이지로 이동.
-                window.location.href = '/login'
-            }
-
-            function handle_signup() {
                 let id = $('#input_id > div > input').val();
                 let pw = $('#input_pw > div > input').val();
-                let name = $('#input_name > div > input').val();
 
                 let formdata = new FormData()
                 formdata.append('id', id)
                 formdata.append('pw', pw)
-                formdata.append('name', name)
 
-                fetch('/api/signup', {body: formdata, method: 'POST'})
+                fetch('/api/login', {body: formdata, method: 'POST'})
                 .then(a => a.json()).then(data => {
+                    // 에러 발생 시, 에러 메시지 띄움.
                     if(data.error_code) {
                         alert(data.msg)
                         return ;
                     }
 
-                    // 회원 가입 성공 시, 로그인 페이지로 이동.
-                    window.location.href = '/login'
-                }).catch(err => {
-                    alert(err.msg)
+                    // 로그인 성공 시, 로그인 정보 저장.
+                    localStorage.setItem("login_session_id", id)
+
+                    // 로그인 성공 시, 메인 페이지로 이동.
+                    window.location.href = '/'
                 })
+            }
+
+            function handle_signup() {
+                // 회원 가입 버튼 클릭 시, 회원 가입 페이지로 이동.
+                window.location.href = '/signup'
             }
         </script>
     </head>
@@ -114,7 +114,7 @@
         
         <div id="panel" class="bg-white">
             <div id="title" class="row">
-                <h1>Sigh Up</h1>
+                <h1>Login</h1>
             </div>
 
             <div id="input_id" class="row">
@@ -137,17 +137,6 @@
                         </svg>
                     </span>
                     <input type="password" class="form-control" placeholder="Password 입력">
-                </div>
-            </div>
-
-            <div id="input_name" class="row">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-vcard-fill" viewBox="0 0 16 16">
-                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm9 1.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4a.5.5 0 0 0-.5.5ZM9 8a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 0-1h-4A.5.5 0 0 0 9 8Zm1 2.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 0-1h-3a.5.5 0 0 0-.5.5Zm-1 2C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 0 2 13h6.96c.026-.163.04-.33.04-.5ZM7 6a2 2 0 1 0-4 0 2 2 0 0 0 4 0Z"/>
-                        </svg>
-                    </span>
-                    <input type="text" class="form-control" placeholder="이름 입력">
                 </div>
             </div>
 
