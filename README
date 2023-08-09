@@ -23,3 +23,7 @@ pip install flask pymongo dnspython requests awsebcli certifi
 - 차후 로고 추가를 염두해 구성
 - 차후 일괄 CSS, JS 적용을 염두해 구성
 - favicon 이미지 파일 예시를 위해 추가
+
+# 협업 시, git conflict를 피하는 구조 설계
+- 각 기능별로 모듈을 분리
+- DB를 위한 모듈을 분리
