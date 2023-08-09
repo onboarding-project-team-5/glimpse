@@ -93,6 +93,10 @@
                         return ;
                     }
 
+                    // 로그인 성공 시, localStorage에 JWT 저장.
+                    let token = data.token
+                    localStorage.setItem(KEY_JWT, token)
+
                     // 로그인 성공 시, 메인 페이지로 이동.
                     window.location.href = '/'
                 })

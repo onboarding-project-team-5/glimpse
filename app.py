@@ -1,14 +1,14 @@
 from flask import Flask, render_template
 from flask import request
-from flask import session, make_response
+
+from utils.jwt import make_token, decode_token
 
 app = Flask(__name__)
-app.secret_key = 'buibbiikb4hyy2cg4cx4cjxuj4v1xcxd'
 
 from pymongo import MongoClient
 from certifi import where
 
-DB_URL = 'mongodb+srv://sparta:test@cluster0.3lyhcbq.mongodb.net/?retryWrites=true&w=majority'
+DB_URL = ''
 client = MongoClient(DB_URL, tlsCAFile=where())
 
 db = client.dbsparta
@@ -52,13 +52,9 @@ def query_login():
     if result['user_pw'] != pw:
         return {'msg': '비밀 번호가 틀렸습니다. 정확한 Password를 입력해주세요.', 'error_code': 'WRONG_PASSWORD'}, 406
     
-    # 쿠키 및 세션에 세션 식별자 설정.
-    response = {'msg': '로그인 성공'}
-    response = make_response(response)
-    response.set_cookie('SESSION-ID', id)
-    
-    session[id] = result
-    return response
+    # JWT 토큰 생성
+    token = make_token(result)
+    return {'msg': '로그인 성공', 'token': token}
 
 # 회원가입 Query
 @app.route('/api/signup', methods=['POST'])
