@@ -1,11 +1,14 @@
 from flask import Flask, render_template
 from flask import request
+from flask import session, make_response
+
 app = Flask(__name__)
+app.secret_key = 'buibbiikb4hyy2cg4cx4cjxuj4v1xcxd'
 
 from pymongo import MongoClient
 from certifi import where
 
-DB_URL = ''
+DB_URL = 'mongodb+srv://sparta:test@cluster0.3lyhcbq.mongodb.net/?retryWrites=true&w=majority'
 client = MongoClient(DB_URL, tlsCAFile=where())
 
 db = client.dbsparta
@@ -39,7 +42,7 @@ def query_login():
         return {'msg': 'PW 값이 빈 칸으로 넘어왔습니다. 입력해주십시오.', 'error_code': 'NULL_PW'}, 406
     
     # 해당 유저 조회
-    result = db.user_list.find_one({'user_id': id})
+    result = db.user_list.find_one({'user_id': id}, {'_id': False})
     # 만약 유저가 존재하지 않으면 로그인 실패
     if result is None:
         return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
@@ -49,7 +52,13 @@ def query_login():
     if result['user_pw'] != pw:
         return {'msg': '비밀 번호가 틀렸습니다. 정확한 Password를 입력해주세요.', 'error_code': 'WRONG_PASSWORD'}, 406
     
-    return {'msg': '로그인 성공'}
+    # 쿠키 및 세션에 세션 식별자 설정.
+    response = {'msg': '로그인 성공'}
+    response = make_response(response)
+    response.set_cookie('SESSION-ID', id)
+    
+    session[id] = result
+    return response
 
 # 회원가입 Query
 @app.route('/api/signup', methods=['POST'])
