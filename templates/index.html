@@ -1,40 +1,255 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <!-- Page Title -->
-        <title>웹 페이지 제목</title>
 
-        <!-- Favicon -->
-        <link rel="icon" href="/static/img/favicon.png" type="image/png">
+<head>
+    <meta charset="utf-8">
+    <!-- Page Title -->
+    <title>웹 페이지 제목</title>
 
-        <!-- Open Graph Meta Tag -->
-        <!-- 
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/favicon.png" type="image/png">
+
+    <!-- Open Graph Meta Tag -->
+    <!-- 
         <meta property="og:title" content="">
         <meta property="og:description" content="">
         <meta property="og:image" content=""> 
         -->
 
-        <!-- Boostrap CSS CDN -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- Boostrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-        <!-- Boostrap JS CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <!-- Boostrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <!-- 공통 CSS -->
-        <link rel="stylesheet" href="/static/css/style.css">
+    <!-- 공통 CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
 
-        <!-- 공통 JS -->
-        <script src="/static/js/script.js"></script>
-    </head>
-    <body>
-        <header>
-            {% include "header.html" %}
-        </header>
+    <style>
 
-        메인 페이지
-    </body>
+    </style>
+
+
+    <!-- 공통 JS -->
+    <!-- <script src="/static/js/script.js"></script> -->
+    <script>
+
+        $(document).ready(function () {
+            listing();
+        });
+
+        // Eric
+        function card_listing() {
+            fetch('/cards_get').then((res) => res.json()).then((data) => {
+                let rows = data['result']
+
+                $('#cards-box').empty()
+                rows.forEach((a) => {
+                    let nickname = a['nickname']
+                    let comment = a['comment']
+                    let desc = a['desc']
+                    let title = a['title']
+                    let image = a['image']
+                    let star = a['star']
+                    let star_repeat = '⭐'.repeat(star)
+                    var likes = a['likes']
+
+                    // console.log(comment, desc, title, image)
+                    let temp_html = `<div class="col">
+                                        <div class="card h-100">
+                                            <img src="${image}"
+                                                class="card-img-top">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${title}</h5>
+                                                <p class="card-text">${desc}</p>
+                                                <p>${star_repeat}</p>
+                                                <p class="mycomment">${comment}</p>
+                                            </div>
+                                        </div>
+                                    </div>`
+
+                    $('#cards-box').append(temp_html)
+                })
+                alert(data['msg'])
+            })
+        }
+
+        // YoonJu
+        function card_posting() {
+            // URL 가져오기 
+            let url = $('#url').val()
+            let comment = $('#comment').val()
+            let star = $('#star').val()
+
+            // formData에 html에서 가져온 데이터를 넣기
+            let formData = new FormData();
+            formData.append("url_give", url);
+            formData.append("comment_give", comment);
+            formData.append("star_give", star);
+
+            fetch('/cards', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                console.log(data)
+                alert(data['msg'])
+                window.location.reload()
+            })
+        }
+
+        // Eric -> Yoonju
+        function open_box() {
+            $('#post-box').show()
+        }
+
+        // Yoonju
+        function close_box() {
+            $('#post-box').hide()
+
+            // --- 카드 좋아요 시작 ---
+            // Operations
+            function countPlus(likeCnt) {
+                likeCnt++;
+                document.querySelector(".like_count").innerHTML = "좋아요 " + likeCnt + "개";
+
+                //카드 좋아요 업데이트 호출
+                updateLike(likeCnt);
+            }
+            
+            // POST
+            function addLike(likeCnt) {
+            }
+            
+            // PUT 카드 좋아요 업데이트
+            function updateLike(count) {
+
+                // let formData = new FormData();
+                // formData.append('like_give', count);
+
+                // fetch(`/posts/like/` + id, {
+                //     method: 'PUT',
+                //     body: formData,
+                // })
+                //     .then((res) => res.json())
+                //     .then((data) => {
+                //         alert(data['msg']);
+
+                //         window.location.reload();
+                //     });
+            }
+            // ---- 카드 좋아요 끝 --- 
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <header>
+        {% include "header.html" %}
+    </header>
+
+    <div class="mytitle">
+        <h1> Glimpse: 우리 기수 쓱 한 번에 보기 </h1>
+        <button onclick="open_box()">내 카드 등록하기</button>
+    </div>
+
+    <div class="mypost" id="post-box">
+        <div class="form-floating mb-3">
+            <input id="url" type="email" class="form-control" placeholder="name@example.com">
+            <label> Card URL </label>
+        </div>
+
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">별점</label>
+            <select class="form-select" id="star">
+                <option selected>-- 선택하기 --</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+        </div>
+
+        <div class="form-floating">
+            <textarea id="comment" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea2">코멘트</label>
+        </div>
+
+        <div class="mybtns">
+            <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button>
+            <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
+        </div>
+    </div>
+
+    <div class="mycards">
+        <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
+                        class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">닉네임이 들어갑니다</h5>
+                        <p class="card-text"> 주특기가 들어갑니다.</p>
+                        <p>⭐⭐⭐</p>
+                        <p class="mycomment">나의 한줄 평을 씁니다</p>
+                        <button id="like_btn" type="button" class="btn btn-outline-primary" onclick="addLike(4)">
+                            좋아요누르기</button>
+                        <p class="like_count">좋아요 4개</p>
+                        <button id="more_btn" class="btn btn-primary">더보기</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
+                        class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">영화 제목이 들어갑니다</h5>
+                        <p class="card-text">여기에 영화에 대한 설명이 들어갑니다.</p>
+                        <p>⭐⭐⭐</p>
+                        <p class="mycomment">나의 한줄 평을 씁니다</p>
+                        <div class="like_count">좋아요 4개</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
+                        class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">영화 제목이 들어갑니다</h5>
+                        <p class="card-text">여기에 영화에 대한 설명이 들어갑니다.</p>
+                        <p>⭐⭐⭐</p>
+                        <p class="mycomment">나의 한줄 평을 씁니다</p>
+                        <div class="like_count">좋아요 4개</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
+                        class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">영화 제목이 들어갑니다</h5>
+                        <p class="card-text">여기에 영화에 대한 설명이 들어갑니다.</p>
+                        <p>⭐⭐⭐</p>
+                        <p class="mycomment">나의 한줄 평을 씁니다</p>
+                        <div class="like_count">좋아요 4개</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
 </html>
