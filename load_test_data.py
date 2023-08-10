@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import certifi
 
 ca = certifi.where()
-client = MongoClient('mongodb+srv://sparta:test@cluster0.2f3ytju.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
+client = MongoClient('', tlsCAFile=ca)
 db = client.dbsparta
 
 doc = {
@@ -24,6 +24,8 @@ doc = {
     'team' : [5,10,11],
     
     'profile_image' : 'https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png',
+    
+    'resolution': '열심히 해보겠습니다',
 }
 
 db.user_list.insert_one(doc)
@@ -47,6 +49,8 @@ doc = {
     'team' : [2,9,11],
     
     'profile_image' : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrcZnEnLy7Ie31zOFTPNd_C8GCFnYvy-Thcg&usqp=CAU',
+    
+    'resolution': '저도 열심히 해보겠습니다',
 }
 
 db.user_list.insert_one(doc)
