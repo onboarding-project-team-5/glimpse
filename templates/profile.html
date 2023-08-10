@@ -41,7 +41,7 @@
             background-image: linear-gradient(0deg,
                     rgba(0, 0, 0, 0.5),
                     rgba(0, 0, 0, 0.5)),
-                url("https://images.unsplash.com/photo-1601024445121-e5b82f020549?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80");
+                url("https://images.unsplash.com/photo-1666466736783-8dfe9298e0e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80");
             background-position: center;
             background-size: cover;
 
@@ -58,33 +58,36 @@
         }
     </style>
     <script>
-        function save_bucket() {
-            let bucket = $('#bucket').val()
+        // 댓글comment저장하기
+        function save_comment() {
+            let comment = $('#comment').val()
 
             let formData = new FormData();
-            formData.append("bucket_give", bucket);
+            formData.append("comment_give", comment);
 
-            fetch('/bucket', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
+            fetch('/comment', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
                 alert(data["msg"]);
                 window.location.reload();
             });
         }
+        // 댓글comment보여주기
         $(document).ready(function () {
-            show_bucket();
+            show_comment();
         });
-        function show_bucket() {
-            fetch('/bucket').then(res => res.json()).then(data => {
+        function show_comment() {
+            fetch('/comment').then(res => res.json()).then(data => {
                 let rows = data['result']
-                $('#bucket-list').empty()
+                $('#comment-list').empty()
                 rows.forEach((a) => {
-                    let bucket = a['bucket']
+                    let comment = a['comment']
                     let temp_html = `<li>
-                                  <h2>✅ ${bucket}</h2>
+                                  <h2>✅ ${comment}</h2>
                               </li>`
-                    $('#bucket-list').append(temp_html)
+                    $('#comment-list').append(temp_html)
                 })
             })
         }
+        // 화성 내용 저장하기
         function save_order() {
             let name = $('#name').val()
             let address = $('#address').val()
@@ -100,6 +103,7 @@
                 window.location.reload()
             });
         }
+        // 화성 내용 출력하기
         $(document).ready(function () {
             show_order();
         });
@@ -120,7 +124,46 @@
                                     </li>`
                     $('#order-box').append(temp_html)
                 })
-                
+            })
+        }
+        // 프로필 출력하기
+        $(document).ready(function () {
+            show_register();
+        });
+        function show_register() {
+            fetch('/register').then((res) => res.json()).then((data) => {
+                let rows = data['result']
+                $('#profile-box').empty()
+                rows.forEach((a) =>{
+                    let userid_logined = localStorage.getItem(KEY_USER_ID)
+                    let user_nickname = a['user_nickname']
+                    let MBTI = a['MBTI']
+                    let location = a['location']
+                    let social_list = a['social_list']
+                    let specialty = a['specialty']
+                    let interest = a['interest']
+                    let program = a['program']
+                    let course = a['course']
+                    let cohort = a['cohort']
+                    let team = a['team']
+                    let image_receive = a['image_receive']
+
+                    let temp_html = `<li>
+                                        <p>${image_receive}</p>
+                                        <p> 닉네임 : ${user_nickname}</p>
+                                        <p> MBTI :${MBTI}</p>
+                                        <p> 지역 :${location}</p>
+                                        <p> sns : ${social_list}</p>
+                                        <p> 주특기 : ${specialty}</p>
+                                        <p> 취미 : ${interest}</p>
+                                        <p> 프로그램 : ${program}</p>
+                                        <p> 과정 : ${course}</p>
+                                        <p> 기수 : ${cohort}</p>
+                                        <p> 조 : ${team}</p>
+                                        <br>
+                                    </li>`
+                    $('#profile-box').append(temp_html)
+                })
             })
         }
     </script>
@@ -129,56 +172,32 @@
 
 <body>
     <div class="mypic">
-        <h1>나의 버킷리스트</h1>
+        <h1>Glimpse</h1>
+        <h5>우리 기수 쓱 한 번에 보기 👀</h5>
     </div>
+    <!-- 주문하기 -->
     <div class="order">
-        <h1>화성에 땅 사놓기!</h1>
-        <h3>가격: 평 당 500원</h3>
+        <h1>PROFILE</h1>
         <p>
-            화성에 땅을 사둘 수 있다고?<br />
-            앞으로 백년 간 오지 않을 기회. 화성에서 즐기는 노후!
+            스파르타 코딩클럽 멤버만 들어올 수 있는 커뮤니티<br />
+            프로필을 살짝 보고 가세요 👀
         </p>
-        <div class="order-info">
-            <div class="input-group mb-3">
-                <span class="input-group-text">이름</span>
-                <input id="name" type="text" class="form-control" />
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">주소</span>
-                <input id="address" type="text" class="form-control" />
-            </div>
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="size">평수</label>
-                <select class="form-select" id="size">
-                    <option selected>-- 주문 평수 --</option>
-                    <option value="10평">10평</option>
-                    <option value="20평">20평</option>
-                    <option value="30평">30평</option>
-                    <option value="40평">40평</option>
-                    <option value="50평">50평</option>
-                </select>
-            </div>
-            <button onclick="save_order()" type="button" class="btn btn-warning mybtn">
-                주문하기
-            </button>
-        </div>
-
-        <div id="order-box">
+        <div id="profile-box">
             <li>
-                주문내역 드러와야 함
+                프로필이 보여요
             </li>
         </div>
 
     </div>
     <div class="mybox">
-        <div class="mybucket">
-            <input id="bucket" class="form-control" type="text" placeholder="이루고 싶은 것을 입력하세요" />
-            <button onclick="save_bucket()" type="button" class="btn btn-outline-primary">기록하기</button>
+        <div class="mycomment">
+            <input id="comment" class="form-control" type="text" placeholder="댓글 남기기👏🏻" />
+            <button onclick="save_comment()" type="button" class="btn btn-outline-primary">작성하기</button>
         </div>
     </div>
-    <div class="mybox" id="bucket-list">
+    <div class="mybox" id="comment-list">
         <li>
-            <h2>✅ 호주에서 스카이다이빙 하기</h2>
+            <h2>✨5조 최고~~~!</h2>
         </li>
     </div>
 </body>

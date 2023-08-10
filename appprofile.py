@@ -35,6 +35,7 @@ def page_card_registration():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+# JE 화성 내용 저장하기
 @app.route("/mars", methods=["POST"])
 def mars_post():
     name_receive = request.form['name_give']
@@ -50,32 +51,34 @@ def mars_post():
 
     return jsonify({'msg':'저장완료!'})
 
+# 화성 내용 출력하기
 @app.route("/mars", methods=["GET"])
 def mars_get():
     mars_data = list(db.mars.find({},{'_id':False}))
     return jsonify({'result':mars_data})
 
-@app.route("/bucket", methods=["POST"])
-def bucket_post():
-    bucket_receive = request.form['bucket_give']
+# JE 댓글 저장하기
+@app.route("/comment", methods=["POST"])
+def comment_post():
+    comment_receive = request.form['comment_give']
 
-    bucket_list = list(db.bucket.find({}, {'_id': False}))
-    count = len(bucket_list) + 1
+    comment_list = list(db.comment.find({}, {'_id': False}))
+    count = len(comment_list) + 1
     doc = {
         'num':count,  #버킷 등록 시, db에서 특정 버킷을 찾기 위해 'num' 이라는 고유 값 부여
-        'bucket' :bucket_receive,
+        'comment' :comment_receive,
         'done' : 0   #'done' key값을 추가 해 각 버킷의 완료 상태 구분(0 = 미완료, 1 = 완료)
     }
-    db.bucket.insert_one(doc)
+    db.comment.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
-@app.route("/bucket", methods=["GET"])
-def bucket_get():
-    all_buckets = list(db.bucket.find({}, {'_id': False}))
-    return jsonify({'result': all_buckets})
+# JE 댓글 출력하기
+@app.route("/comment", methods=["GET"])
+def comment_get():
+    all_comments = list(db.comment.find({}, {'_id': False}))
+    return jsonify({'result': all_comments})
 
 
 # run 내용 편의를 위해 변경_배운걸로 사용
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5001, debug=True)
-
+    app.run('0.0.0.0', port=5000, debug=True)

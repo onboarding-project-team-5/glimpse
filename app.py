@@ -72,10 +72,30 @@ def cards_get():
     return jsonify({'result':all_user_cards})
 
 
-# (JH) 회원가입, 로그인 페이지
+# (JH) 회원가입 페이지
 @app.route('/signup')
 def page_signup():
     return render_template('signup.html')
+
+# (JH) 로그인 페이지
+@app.route('/login')
+def page_login():
+    return render_template('login.html')
+
+# (JH) 유저 단일 조회 쿼리
+@app.route('/api/users/<user_id>')
+def query_users(user_id):
+    result = db.user_list.find_one({'user_id': user_id}, {'_id': False})
+    
+    # 유저 조회가 이뤄지지 않았으면 오류 발생.
+    if result is None:
+        return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
+    return {'result': result}
+
+# (JH) 유저 단일 조회 쿼리 - ID값이 빈 값으로 넘어옴.
+@app.route('/api/users/')
+def query_users_without_id():
+    return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
 
 # (JH) 로그인 Query
 @app.route('/api/login', methods=['POST'])
@@ -127,7 +147,7 @@ def query_signup():
     
     # 해당 유저 저장.
     doc = {
-        'user_name' : name,
+        'user_nickname' : name,
         'user_id' : id,
         'user_pw' : pw,
     }
@@ -151,7 +171,7 @@ def register_post():
     field_receive = request.form['field_give']
     github_receive= request.form['github_give']
     blog_receive = request.form['blog_give']
-    location_receive = request.form['lacation_give']
+    location_receive = request.form['location_give']
     interest_receive = request.form['interest_give']
     MBTI_receive = request.form['MBTI_give']
     
