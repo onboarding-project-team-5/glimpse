@@ -81,9 +81,12 @@
 
                     let profile_image = a['profile_image']
                     let resolution = a['resolution']
+                    let has_card = a['has_card']
 
+                    let temp_html = ``
 
-                    let temp_html =
+                    if (has_card == 1){
+                        temp_html =
                                     `<div class="col">
                                         <div class="card h-100">
                                             <img src="${profile_image}" class="card-img-top" alt="...">
@@ -103,8 +106,10 @@
                                             </div>
                                         </div>
                                     </div>`
+                        $('#cards-box').append(temp_html)
+                    }
 
-                    $('#cards-box').append(temp_html)
+                    
                 })
             })
         }
