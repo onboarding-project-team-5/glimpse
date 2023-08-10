@@ -1,14 +1,8 @@
-# 식은 할당 대상이 될 수 없습니다? - 무슨 말인지 모르겠다
-# post 문법 찾아보고 수정하기
-
 from flask import Flask, render_template
 from flask import request
 from flask import jsonify
 
-from utils.jwt import make_token, decode_token
-
-import requests
-from bs4 import BeautifulSoup
+from utils.jwt import make_token
 
 app = Flask(__name__)
 
@@ -16,10 +10,8 @@ from pymongo import MongoClient
 # from certifi import where
 import certifi
 
-DB_URL = '{DB URL 기입하시면 되요}'
 ca = certifi.where()
-# client = MongoClient(DB_URL, tlsCAFile=where())
-client = MongoClient('mongodb+srv://sparta:test@cluster0.2f3ytju.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
+client = MongoClient('mongodb+srv://sparta:test@cluster0.3lyhcbq.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.dbsparta
 
 
@@ -128,30 +120,43 @@ def query_signup():
 
 
 # (YJ) 카드 등록
+@app.route('/')
+def home():
+    return render_template('card_registeration.html')
+
 @app.route("/register", methods=["POST"])
 def register_post():
     nickname_receive = request.form['nickname_give']
-    field_receive = request.form['field_give']
-    github_receive= request.form['github_give']
-    blog_receive = request.form['blog_give']
-    location_receive = request.form['location_give']
-    interest_receive = request.form['interest_give']
     MBTI_receive = request.form['MBTI_give']
+    location_receive = request.form['location_give']
+    social_receive = request.form['social_give']
+    specialty_receive = request.form['specialty_give']
+    interest_receive = request.form['interest_give']
+    program_receive = request.form['program_give']
+    course_receive= request.form['course_give']
+    cohort_receive = request.form['cohort_give']
+    team_receive = request.form['team_give']
+    image_receive = request.form['image_give']
+    resolution_receive = request.form['resolution_give']
     
-    register_list = list(db.register.find({}, {'_id': False}))
     # 이미지 추가
     doc = {
-        'nickname' : nickname_receive,
-        'field' : field_receive,
-        'github' : github_receive,
-        'blog' : blog_receive,
-        'location' : location_receive,
-        'interest' : interest_receive,
-        'MBTI' : MBTI_receive
+        'user_nickname': nickname_receive,
+        'MBTI' : MBTI_receive,
+        'location': location_receive,
+        'social_list': social_receive,
+        'specialty' : specialty_receive,
+        'interest': interest_receive,
+        'program' : program_receive,
+        'course' : course_receive,
+        'cohort' : cohort_receive,
+        'team' : team_receive,
+        'image' : image_receive,
+        'resolution' : resolution_receive
     }
-
     db.cards.insert_one(doc)
-    return jsonify({'msg': '저장 완료!'})
+    # 성공여부 추가, 성공 시 fuction 에 사용
+    return jsonify({'result': 'success', 'msg': '저장 완료!'})
 
 
 ## (Eric) Profile Cards들을 리스팅
