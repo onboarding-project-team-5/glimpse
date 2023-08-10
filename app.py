@@ -69,7 +69,7 @@ def cards_get():
     all_user_cards = list(db.user_list.find({},{'_id':False}))
 
     # 내려주기
-    return jsonify({'result':all_user_cards, 'msg': '카드 리스팅 완료'})
+    return jsonify({'result':all_user_cards})
 
 
 # (JH) 회원가입, 로그인 페이지
