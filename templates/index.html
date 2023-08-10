@@ -49,7 +49,7 @@
             // $('#post-box').show()
             window.location.href = url
         }
-        
+        // Eric -> JE : 더보기 누르면 유저 상세 페이지로 이동
         function see_user_profile(url) {
             // $('#post-box').show()
             window.location.href = url
@@ -99,7 +99,7 @@
                                                 <p class="course"> <b>수강코스</b>: ${course}</p>
                                                 <p class="cohort"> <b>기수</b>: ${cohort}기 </p>
                                                 <p class="team"> <b>모든 팀들</b>: ${team} </p>
-                                                <button class='see_more_btn' onclick="see_user_profile('/card/profile/${user_id}')">더보기</button>
+                                                <button class='see_more_btn' onclick="see_user_profile('/profile/${user_id}')">더보기</button>
                                             </div>
                                         </div>
                                     </div>`
