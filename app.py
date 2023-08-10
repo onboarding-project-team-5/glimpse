@@ -28,7 +28,7 @@ db = client.dbsparta
 def page_main():
     return render_template('index.html')
 
-# 메인 페이지 - 유저리스트 카드 만들기
+# Yoonju 프로필 등록 페이지 - 유저리스트 카드 만들기
 @app.route("/movie", methods=["POST"])
 def cards_post():
     ## 1. url, comment + star 받기
@@ -62,27 +62,27 @@ def cards_post():
     
     return jsonify({'msg':'저장완료!'})
 
-## Profile Cards들을 리스팅
-@app.route("/movie", methods=["GET"])
+## (Eric) Profile Cards들을 리스팅
+@app.route("/cards_get", methods=["GET"])
 def cards_get():
     ## DB에서 영화를 가져다가 내려줘야한다
-    all_movies = list(db.movies.find({},{'_id':False}))
+    all_user_cards = list(db.user_list.find({},{'_id':False}))
 
     # 내려주기
-    return jsonify({'result':all_movies, 'msg': '리스팅 완료'})
+    return jsonify({'result':all_user_cards, 'msg': '카드 리스팅 완료'})
 
 
-# 회원가입 페이지
+# (JH) 회원가입 페이지
 @app.route('/signup')
 def page_signup():
     return render_template('signup.html')
 
-# 로그인 페이지
+# (JH) 로그인 페이지
 @app.route('/login')
 def page_login():
     return render_template('login.html')
 
-# 유저 단일 조회 쿼리
+# (JH) 유저 단일 조회 쿼리
 @app.route('/api/users/<user_id>')
 def query_users(user_id):
     result = db.user_list.find_one({'user_id': user_id}, {'_id': False})
@@ -92,12 +92,12 @@ def query_users(user_id):
         return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
     return {'result': result}
 
-# 유저 단일 조회 쿼리 - ID값이 빈 값으로 넘어옴.
+# (JH) 유저 단일 조회 쿼리 - ID값이 빈 값으로 넘어옴.
 @app.route('/api/users/')
 def query_users_without_id():
     return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
 
-# 로그인 Query
+# (JH) 로그인 Query
 @app.route('/api/login', methods=['POST'])
 def query_login():
     id = request.form['id']
@@ -124,7 +124,7 @@ def query_login():
     token = make_token(result)
     return {'msg': '로그인 성공', 'token': token}
 
-# 회원가입 Query
+# (JH) 회원가입 Query
 @app.route('/api/signup', methods=['POST'])
 def query_signup():
     id = request.form['id']
@@ -154,7 +154,7 @@ def query_signup():
     db.user_list.insert_one(doc)
     return {'msg': '회원 가입 성공'}
 
-# 개인 프로필 페이지
+# (JE) 개인 프로필 페이지
 @app.route('/profile/me')
 def page_profile_me():
     return render_template('profile.html')
@@ -171,7 +171,7 @@ def register_post():
     field_receive = request.form['field_give']
     github_receive= request.form['github_give']
     blog_receive = request.form['blog_give']
-    location_receive = request.form['lacation_give']
+    location_receive = request.form['location_give']
     interest_receive = request.form['interest_give']
     MBTI_receive = request.form['MBTI_give']
     
