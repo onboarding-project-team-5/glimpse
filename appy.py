@@ -26,6 +26,7 @@ def register_post():
     cohort_receive = request.form['cohort_give']
     team_receive = request.form['team_give']
     image_receive = request.form['image_give']
+    resolution_receive = request.form['resolution_give']
     
     # 이미지 추가
     doc = {
@@ -39,7 +40,8 @@ def register_post():
         'course' : course_receive,
         'cohort' : cohort_receive,
         'team' : team_receive,
-        'image' : image_receive
+        'image' : image_receive,
+        'resolution' : resolution_receive
     }
     db.cards.insert_one(doc)
     # 성공여부 추가, 성공 시 fuction 에 사용
