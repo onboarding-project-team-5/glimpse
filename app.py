@@ -28,7 +28,7 @@ db = client.dbsparta
 def page_main():
     return render_template('index.html')
 
-# 메인 페이지 - 유저리스트 카드 만들기
+# Yoonju 프로필 등록 페이지 - 유저리스트 카드 만들기
 @app.route("/movie", methods=["POST"])
 def cards_post():
     ## 1. url, comment + star 받기
@@ -62,22 +62,22 @@ def cards_post():
     
     return jsonify({'msg':'저장완료!'})
 
-## Profile Cards들을 리스팅
-@app.route("/movie", methods=["GET"])
+## (Eric) Profile Cards들을 리스팅
+@app.route("/cards_get", methods=["GET"])
 def cards_get():
     ## DB에서 영화를 가져다가 내려줘야한다
-    all_movies = list(db.movies.find({},{'_id':False}))
+    all_user_cards = list(db.user_list.find({},{'_id':False}))
 
     # 내려주기
-    return jsonify({'result':all_movies, 'msg': '리스팅 완료'})
+    return jsonify({'result':all_user_cards, 'msg': '카드 리스팅 완료'})
 
 
-# 회원가입, 로그인 페이지
+# (JH) 회원가입, 로그인 페이지
 @app.route('/signup')
 def page_signup():
     return render_template('signup.html')
 
-# 로그인 Query
+# (JH) 로그인 Query
 @app.route('/api/login', methods=['POST'])
 def query_login():
     id = request.form['id']
@@ -104,7 +104,7 @@ def query_login():
     token = make_token(result)
     return {'msg': '로그인 성공', 'token': token}
 
-# 회원가입 Query
+# (JH) 회원가입 Query
 @app.route('/api/signup', methods=['POST'])
 def query_signup():
     id = request.form['id']
@@ -134,7 +134,7 @@ def query_signup():
     db.user_list.insert_one(doc)
     return {'msg': '회원 가입 성공'}
 
-# 개인 프로필 페이지
+# (JE) 개인 프로필 페이지
 @app.route('/profile/me')
 def page_profile_me():
     return render_template('profile.html')
