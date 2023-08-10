@@ -166,6 +166,13 @@ def cards_get():
     return jsonify({'result':all_user_cards})
 
 
+# JE 프로필 register 내용 출력하기
+@app.route("/register", methods=["GET"])
+def register_get():
+    register_data = list(db.user_list.find({},{'_id':False}))
+    return jsonify({'result':register_data})
+
+
 # JE 댓글 저장하기
 @app.route("/comment", methods=["POST"])
 def comment_post():
