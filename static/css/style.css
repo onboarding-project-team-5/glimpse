@@ -24,6 +24,14 @@
     color: gray;
 }
 
+.title-text{
+    margin-top: 20px;
+}
+
+.body {
+    border: 1px solid white;
+}
+
 .cards-list {
     margin: 20px auto 0px auto;
     width: 95%;
@@ -50,9 +58,9 @@
 }
 
 img {
+
     object-fit: cover;
 }
-
 
 .mybtns {
     display: flex;

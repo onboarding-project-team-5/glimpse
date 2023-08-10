@@ -53,8 +53,6 @@ def page_card_registration():
 def page_not_found(e):
     return render_template('404.html'), 404
 
-
-
 # (JH) 유저 단일 조회 쿼리
 @app.route('/api/users/<user_id>')
 def query_users(user_id):
