@@ -72,10 +72,30 @@ def cards_get():
     return jsonify({'result':all_movies, 'msg': '리스팅 완료'})
 
 
-# 회원가입, 로그인 페이지
+# 회원가입 페이지
 @app.route('/signup')
 def page_signup():
     return render_template('signup.html')
+
+# 로그인 페이지
+@app.route('/login')
+def page_login():
+    return render_template('login.html')
+
+# 유저 단일 조회 쿼리
+@app.route('/api/users/<user_id>')
+def query_users(user_id):
+    result = db.user_list.find_one({'user_id': user_id}, {'_id': False})
+    
+    # 유저 조회가 이뤄지지 않았으면 오류 발생.
+    if result is None:
+        return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
+    return {'result': result}
+
+# 유저 단일 조회 쿼리 - ID값이 빈 값으로 넘어옴.
+@app.route('/api/users/')
+def query_users_without_id():
+    return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
 
 # 로그인 Query
 @app.route('/api/login', methods=['POST'])
