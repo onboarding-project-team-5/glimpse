@@ -74,6 +74,7 @@
             /* background-color: #c0e0ff; */
             align-items: center;
             justify-content: center;
+            margin: 4rem 0rem 4rem 0rem;
         }
 
         .upload_photo>.card-img-top {
@@ -96,7 +97,8 @@
             let course = $("#course").val();
             let cohort = $("#chort").val();
             let team = $("#team").val();
-            let input = document.querySelector("#image");
+            let image = $("#image").val;
+            let resolution = $('#resolution').val;
             let formData = new FormData();
 
             formData.append("nickname_give", nickname);
@@ -110,7 +112,8 @@
             formData.append("course_give", course);
             formData.append("cohort_give", cohort);
             formData.append("team_give", team);
-            formData.append("image_give", input.files[0]);
+            formData.append("image_give", image);
+            formData.append("resolution_give", resolution);
 
             fetch('/register', {
                 method: "POST",
@@ -144,14 +147,15 @@
             <div class="profile_body row">
                 <div class="form row col-6">
                     <!-- 사진 미리보기 위에 PROFILE 추가 -->
-                    <!-- 미리보기 주위에 예쁜 img 넣기 -->
+                    <!-- img 좌우 여백 넣기! -->
                     <form class="upload_photo">
                         <img id="preview" class="card-img"
                             src="/static/img/profile.png" alt="미리보기" />
                         <br /><br />
-                        <label for="formFile" class="form-label">업로드 할 사진을 선택하세요</label>
-                        <input class="form-control" type="file" id="formFile" name="image"
-                            onChange="uploadProfile(event)" /><br />
+                        <div class = "col-12">
+                            <label for="resolution" class="form-label">하고 싶은 말</label>
+                            <input type="text" class="form-control" id="resolution">
+                        </div>                     
                     </form>
                 </div>
                 <!-- 좌우 여백 주기 -->
@@ -160,6 +164,10 @@
                         <div class="col-12">
                             <label for="nickname" class="form-label">nickname</label>
                             <input type="text" class="form-control" id="nickname">
+                        </div>
+                        <div class = "col-12">
+                            <label for="image" class="form-label">image URL</label>
+                            <input type="text" class="form-control" id="image">
                         </div>
                         <div class="col-12">
                             <label for="MBTI" class="form-label">MBTI</label>
