@@ -9,10 +9,6 @@ ca = certifi.where()
 client = MongoClient('mongodb+srv://yungiDB:dbsrlelql@cluster0.bpcqzfd.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
-import base64
-import gridfs
-fs = gridfs.GridFS(db)
-
 @app.route('/')
 def home():
     return render_template('card_registeration.html')
@@ -29,10 +25,7 @@ def register_post():
     course_receive= request.form['course_give']
     cohort_receive = request.form['cohort_give']
     team_receive = request.form['team_give']
-    image_receive = request.files['image_give']
-    
-    #GridFs 통해 파일을 분할, DB에 저장
-    file_img_id = fs.put(image_receive)
+    image_receive = request.form['image_give']
     
     # 이미지 추가
     doc = {
@@ -46,7 +39,7 @@ def register_post():
         'course' : course_receive,
         'cohort' : cohort_receive,
         'team' : team_receive,
-        'image' : file_img_id
+        'image' : image_receive
     }
     db.cards.insert_one(doc)
     # 성공여부 추가, 성공 시 fuction 에 사용
