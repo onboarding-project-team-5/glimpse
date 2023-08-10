@@ -58,30 +58,32 @@
         }
     </style>
     <script>
-        function save_bucket() {
-            let bucket = $('#bucket').val()
+        // 댓글comment저장하기
+        function save_comment() {
+            let comment = $('#comment').val()
 
             let formData = new FormData();
-            formData.append("bucket_give", bucket);
+            formData.append("comment_give", comment);
 
-            fetch('/bucket', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
+            fetch('/comment', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
                 alert(data["msg"]);
                 window.location.reload();
             });
         }
+        // 댓글comment보여주기
         $(document).ready(function () {
-            show_bucket();
+            show_comment();
         });
-        function show_bucket() {
-            fetch('/bucket').then(res => res.json()).then(data => {
+        function show_comment() {
+            fetch('/comment').then(res => res.json()).then(data => {
                 let rows = data['result']
-                $('#bucket-list').empty()
+                $('#comment-list').empty()
                 rows.forEach((a) => {
-                    let bucket = a['bucket']
+                    let comment = a['comment']
                     let temp_html = `<li>
-                                  <h2>✅ ${bucket}</h2>
+                                  <h2>✅ ${comment}</h2>
                               </li>`
-                    $('#bucket-list').append(temp_html)
+                    $('#comment-list').append(temp_html)
                 })
             })
         }
@@ -132,7 +134,7 @@
         <h1>Glimpse: 우리 기수 쓱 한 번에 보기</h1>
     </div>
     <div class="order">
-        <h1>화성에 땅 사놓기!</h1>
+        <h1>PROFILE</h1>
         <h3>가격: 평 당 500원</h3>
         <p>
             화성에 땅을 사둘 수 있다고?<br />
@@ -171,14 +173,14 @@
 
     </div>
     <div class="mybox">
-        <div class="mybucket">
-            <input id="bucket" class="form-control" type="text" placeholder="이루고 싶은 것을 입력하세요" />
-            <button onclick="save_bucket()" type="button" class="btn btn-outline-primary">기록하기</button>
+        <div class="mycomment">
+            <input id="comment" class="form-control" type="text" placeholder="댓글 남기기👏🏻" />
+            <button onclick="save_comment()" type="button" class="btn btn-outline-primary">작성하기</button>
         </div>
     </div>
-    <div class="mybox" id="bucket-list">
+    <div class="mybox" id="comment-list">
         <li>
-            <h2>✅ 호주에서 스카이다이빙 하기</h2>
+            <h2>✨5조 최고~~~!</h2>
         </li>
     </div>
 </body>
