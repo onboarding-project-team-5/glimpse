@@ -96,7 +96,7 @@
             let course = $("#course").val();
             let cohort = $("#chort").val();
             let team = $("#team").val();
-            let image = $("#image").val();
+            let input = document.querySelector("#image");
             let formData = new FormData();
 
             formData.append("nickname_give", nickname);
@@ -110,7 +110,7 @@
             formData.append("course_give", course);
             formData.append("cohort_give", cohort);
             formData.append("team_give", team);
-            formData.append("image_give", image);
+            formData.append("image_give", input.files[0]);
 
             fetch('/register', {
                 method: "POST",
