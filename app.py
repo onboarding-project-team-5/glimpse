@@ -1,14 +1,8 @@
-# 식은 할당 대상이 될 수 없습니다? - 무슨 말인지 모르겠다
-# post 문법 찾아보고 수정하기
-
 from flask import Flask, render_template
 from flask import request
 from flask import jsonify
 
-from utils.jwt import make_token, decode_token
-
-import requests
-from bs4 import BeautifulSoup
+from utils.jwt import make_token
 
 app = Flask(__name__)
 
@@ -16,10 +10,8 @@ from pymongo import MongoClient
 # from certifi import where
 import certifi
 
-DB_URL = '{DB URL 기입하시면 되요}'
 ca = certifi.where()
-# client = MongoClient(DB_URL, tlsCAFile=where())
-client = MongoClient('mongodb+srv://sparta:test@cluster0.2f3ytju.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
+client = MongoClient('mongodb+srv://sparta:test@cluster0.3lyhcbq.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.dbsparta
 
 
