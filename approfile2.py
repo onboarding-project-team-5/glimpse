@@ -177,10 +177,10 @@ def register_post():
     db.cards.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
-# 프로필 register 내용 출력하기
+# JE 프로필 register 내용 출력하기
 @app.route("/register", methods=["GET"])
 def register_get():
-    register_data = list(db.register.find({},{'_id':False}))
+    register_data = list(db.cards.find({},{'_id':False}))
     return jsonify({'result':register_data})
 
 # JE 화성 내용 저장하기
