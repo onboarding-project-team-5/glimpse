@@ -138,12 +138,12 @@
                 })
             })
         }
-        
+
         // 프로필 출력하기
         $(document).ready(function () {
             let user_id = '{{ user_id }}'
 
-            if(user_id == 'me') {
+            if (user_id == 'me') {
                 user_id = localStorage.getItem(KEY_USER_ID)
             }
 
@@ -154,7 +154,9 @@
             fetch(`/api/users/${user_id}`).then((res) => res.json()).then((data) => {
                 let a = data['result']
                 $('#profile-box').empty()
-                
+
+                let image =a['image']
+                let user_id = a['user_id']
                 let user_nickname = a['user_nickname']
                 let MBTI = a['MBTI']
                 let location = a['location']
@@ -166,13 +168,15 @@
                 let team = a['team'].join(", ")
 
                 let social_list = []
-                for(const key in a['social_list'][0]) {
+                for (const key in a['social_list'][0]) {
                     let value = a['social_list'][0][key]
                     social_list.push(`<a href="${value}">${key}</a>`)
                 }
                 social_list.join(", ")
 
                 let temp_html = `<li>
+                                    <p>${image}</p>
+                                    <p> ID :${user_id}</p>
                                     <p> 닉네임 : ${user_nickname}</p>
                                     <p> MBTI :${MBTI}</p>
                                     <p> 지역 :${location}</p>
@@ -209,7 +213,18 @@
         </p>
         <div id="profile-box">
             <li>
-                프로필이 보여요
+                <p>sparta</p>
+                <p> 닉네임 : 뿅아리 </p>
+                <p> MBTI :ENTJ </p>
+                <p> 지역 :서울</p>
+                <p> sns : github </p>
+                <p> 주특기 : Spring</p>
+                <p> 취미 : 테니스 </p>
+                <p> 프로그램 : 항해99 </p>
+                <p> 과정 : 웹개발 종합반</p>
+                <p> 기수 : 16기 </p>
+                <p> 조 : 5조 </p>
+                <br>
             </li>
         </div>
 
