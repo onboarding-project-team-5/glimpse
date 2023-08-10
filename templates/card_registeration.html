@@ -82,6 +82,39 @@
             height: 12.5rem;
         }
     </style>
+
+    <script>
+        // 이미지 업로드 추가!!!
+        function save_profile() {
+            let nickname = $("#nickname").val();
+            let field = $("#field").val();
+            let github = $("#github").val();
+            let blog = $("#blog").val();
+            let location = $("#location").val();
+            let interest = $("#interest").val();
+            let MBTI = $("#MBTI").val();
+            let formData = new FormData();
+            formData.append("nickname_give", nickname);
+            formData.append("field_give", field);
+            formData.append("github_give", github);
+            formData.append("blog_give", blog);
+            formData.append("location_give", location);
+            formData.append("interest_give", interest);
+            formData.append("MBTI_give", MBTI);
+
+
+            fetch('/register', { 
+                method: "POST", 
+                body: formData, })
+                .then((res) => res.json())
+                .then((data) => {
+                    // msg에 저장 완료 넣기
+                    alert(data["msg"]); 
+                    window.location.href='/'();
+            });
+        }
+    </script>
+
 </head>
 
 <body>
