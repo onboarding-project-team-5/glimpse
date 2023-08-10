@@ -138,43 +138,54 @@
                 })
             })
         }
+        
         // 프로필 출력하기
         $(document).ready(function () {
-            show_register();
-        });
-        function show_register() {
-            fetch(`/api/users/${userid_logined}`).then((res) => res.json()).then((data) => {
-                let rows = data['result']
-                $('#profile-box').empty()
-                rows.forEach((a) => {
-                    let user_nickname = a['user_nickname']
-                    let MBTI = a['MBTI']
-                    let location = a['location']
-                    let social_list = a['social_list']
-                    let specialty = a['specialty']
-                    let interest = a['interest']
-                    let program = a['program']
-                    let course = a['course']
-                    let cohort = a['cohort']
-                    let team = a['team']
-                    let image_receive = a['image_receive']
+            let user_id = '{{ user_id }}'
 
-                    let temp_html = `<li>
-                                        <p>${image_receive}</p>
-                                        <p> 닉네임 : ${user_nickname}</p>
-                                        <p> MBTI :${MBTI}</p>
-                                        <p> 지역 :${location}</p>
-                                        <p> sns : ${social_list}</p>
-                                        <p> 주특기 : ${specialty}</p>
-                                        <p> 취미 : ${interest}</p>
-                                        <p> 프로그램 : ${program}</p>
-                                        <p> 과정 : ${course}</p>
-                                        <p> 기수 : ${cohort}</p>
-                                        <p> 조 : ${team}</p>
-                                        <br>
-                                    </li>`
-                    $('#profile-box').append(temp_html)
-                })
+            if(user_id == 'me') {
+                user_id = localStorage.getItem(KEY_USER_ID)
+            }
+
+            show_register(user_id);
+        });
+
+        function show_register(user_id) {
+            fetch(`/api/users/${user_id}`).then((res) => res.json()).then((data) => {
+                let a = data['result']
+                $('#profile-box').empty()
+                
+                let user_nickname = a['user_nickname']
+                let MBTI = a['MBTI']
+                let location = a['location']
+                let specialty = a['specialty']
+                let interest = a['interest'].join(", ")
+                let program = a['program']
+                let course = a['course']
+                let cohort = a['cohort']
+                let team = a['team'].join(", ")
+
+                let social_list = []
+                for(const key in a['social_list'][0]) {
+                    let value = a['social_list'][0][key]
+                    social_list.push(`<a href="${value}">${key}</a>`)
+                }
+                social_list.join(", ")
+
+                let temp_html = `<li>
+                                    <p> 닉네임 : ${user_nickname}</p>
+                                    <p> MBTI :${MBTI}</p>
+                                    <p> 지역 :${location}</p>
+                                    <p> sns : ${social_list}</p>
+                                    <p> 주특기 : ${specialty}</p>
+                                    <p> 취미 : ${interest}</p>
+                                    <p> 프로그램 : ${program}</p>
+                                    <p> 과정 : ${course}</p>
+                                    <p> 기수 : ${cohort}</p>
+                                    <p> 조 : ${team}</p>
+                                    <br>
+                                </li>`
+                $('#profile-box').append(temp_html)
             })
         }
     </script>
