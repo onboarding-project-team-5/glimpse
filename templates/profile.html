@@ -85,6 +85,44 @@
                 })
             })
         }
+        function save_order() {
+            let name = $('#name').val()
+            let address = $('#address').val()
+            let size = $('#size').val()
+
+            let formData = new FormData();
+            formData.append("name_give", name);
+            formData.append("address_give", address);
+            formData.append("size_give", size);
+
+            fetch('/mars', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
+                alert(data["msg"]);
+                window.location.reload()
+            });
+        }
+        $(document).ready(function () {
+            show_order();
+        });
+        function show_order() {
+            fetch('/mars').then((res) => res.json()).then((data) => {
+                let rows = data['result']
+                $('#order-box').empty()
+                rows.forEach((a) =>{
+                    let name = a['name']
+                    let address = a['address']
+                    let size = a['size']
+
+                    let temp_html = `<li>
+                                        <p>이름 : ${name}</p>
+                                        <p>주소 :${address}</p>
+                                        <p>평수 :${size}</p>
+                                        <br>
+                                    </li>`
+                    $('#order-box').append(temp_html)
+                })
+                
+            })
+        }
     </script>
 
 </head>
@@ -92,6 +130,45 @@
 <body>
     <div class="mypic">
         <h1>나의 버킷리스트</h1>
+    </div>
+    <div class="order">
+        <h1>화성에 땅 사놓기!</h1>
+        <h3>가격: 평 당 500원</h3>
+        <p>
+            화성에 땅을 사둘 수 있다고?<br />
+            앞으로 백년 간 오지 않을 기회. 화성에서 즐기는 노후!
+        </p>
+        <div class="order-info">
+            <div class="input-group mb-3">
+                <span class="input-group-text">이름</span>
+                <input id="name" type="text" class="form-control" />
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text">주소</span>
+                <input id="address" type="text" class="form-control" />
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="size">평수</label>
+                <select class="form-select" id="size">
+                    <option selected>-- 주문 평수 --</option>
+                    <option value="10평">10평</option>
+                    <option value="20평">20평</option>
+                    <option value="30평">30평</option>
+                    <option value="40평">40평</option>
+                    <option value="50평">50평</option>
+                </select>
+            </div>
+            <button onclick="save_order()" type="button" class="btn btn-warning mybtn">
+                주문하기
+            </button>
+        </div>
+
+        <div id="order-box">
+            <li>
+                주문내역 드러와야 함
+            </li>
+        </div>
+
     </div>
     <div class="mybox">
         <div class="mybucket">

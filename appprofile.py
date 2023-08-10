@@ -35,6 +35,26 @@ def page_card_registration():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+@app.route("/mars", methods=["POST"])
+def mars_post():
+    name_receive = request.form['name_give']
+    address_receive = request.form['address_give']
+    size_receive = request.form['size_give']
+
+    doc = {
+        'name':name_receive,
+        'address':address_receive,
+        'size':size_receive
+    }
+    db.mars.insert_one(doc)
+
+    return jsonify({'msg':'저장완료!'})
+
+@app.route("/mars", methods=["GET"])
+def mars_get():
+    mars_data = list(db.mars.find({},{'_id':False}))
+    return jsonify({'result':mars_data})
+
 @app.route("/bucket", methods=["POST"])
 def bucket_post():
     bucket_receive = request.form['bucket_give']
