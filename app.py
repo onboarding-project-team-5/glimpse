@@ -113,6 +113,7 @@ def query_signup():
         'user_nickname' : name,
         'user_id' : id,
         'user_pw' : pw,
+        'has_card': 0,
     }
     db.user_list.insert_one(doc)
     return {'msg': '회원 가입 성공'}
