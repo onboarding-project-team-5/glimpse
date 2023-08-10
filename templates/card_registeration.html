@@ -79,7 +79,7 @@
         .upload_photo>.card-img-top {
             /* background-color: blanchedalmond; */
             width: 12.5rem;
-            height: 12.5rem;
+            height: 19.5rem;
         }
     </style>
 
@@ -142,12 +142,12 @@
         </div>
         <div class="profile">
             <div class="profile_body row">
-                <div class="col-6">
+                <div class="form row col-6">
                     <!-- 사진 미리보기 위에 PROFILE 추가 -->
                     <!-- 미리보기 주위에 예쁜 img 넣기 -->
                     <form class="upload_photo">
-                        <img id="preview" class="card-img-top"
-                            src="https://cdn-icons-png.flaticon.com/512/1361/1361876.png" alt="미리보기" />
+                        <img id="preview" class="card-img"
+                            src="/static/img/profile.png" alt="미리보기" />
                         <br /><br />
                         <label for="formFile" class="form-label">업로드 할 사진을 선택하세요</label>
                         <input class="form-control" type="file" id="formFile" name="image"
@@ -156,14 +156,12 @@
                 </div>
                 <!-- 좌우 여백 주기 -->
                 <div class="form row col-6">
-                    <div class="row g-3">
-                        <img id="profile-sampe-img" src="/static/img/profile.png">
                         <legend>프로필 등록하기</legend>
                         <div class="col-12">
                             <label for="nickname" class="form-label">nickname</label>
                             <input type="text" class="form-control" id="nickname">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-12">
                             <label for="MBTI" class="form-label">MBTI</label>
                             <select id="MBTI" class="form-select">
                                 <option selected>선택</option>

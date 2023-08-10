@@ -55,6 +55,7 @@
             fetch('/cards_get').then((res) => res.json()).then((data) => {
                 let rows = data['result']
                 console.log(rows)
+                // console.log(rows[0]['social_list'][0]['github'])
 
                 $('#cards-box').empty()
                 rows.forEach((a) => {
@@ -63,7 +64,7 @@
 
                     let mbti = a['MBIT']
                     let location = a['location']
-                    let social_list_github = a['social_list']['github']
+                    let social_list_github = a['social_list'][0]['github']
                     let specialty = a['specialty']
                     let interset = a['interest']
                     let likes = a['likes']
@@ -74,6 +75,7 @@
                     let team = a['team']
 
                     let profile_image = a['profile_image']
+                    let resolution = a['resolution']
 
 
                     let temp_html =
@@ -91,7 +93,7 @@
                                                             <p class="program"> 프로그램: ${program}</p>                                                
                                                             <p class="course"> 수강코스: ${course}</p>
                                                             <p class="cohort"> 기수: ${cohort}기 </p>
-                                                            <p class="team"> ${team} 팀들</p>
+                                                            <p class="team"> 모든 팀들: ${team} </p>
                                                             
                                                             <button id="like_btn" type="button" class="btn btn-outline-primary" onclick="addLike(4)"> 하트(이미지로 변경 예정)</button>
                                                             <p class="likes"> 좋아요 ${likes}개 </p>
