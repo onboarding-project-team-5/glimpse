@@ -22,8 +22,7 @@ function auth(url, options={}) {
 }
 
 // 로그인을 무조건 해야 하는 URL 기입.
-// const URL_MUST_LOGIN = ['/', '/profile/me', '/register']
-const URL_MUST_LOGIN = []
+const URL_MUST_LOGIN = ['/', '/profile/me', '/card/registration']
 
 // 로그인 유저 정보를 담아내기
 let LOGIN_USER_INFO = {}
