@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    
+
     <meta charset="utf-8">
     <!-- Page Title -->
     <title>웹 페이지 제목</title>
@@ -87,31 +87,40 @@
         // 이미지 업로드 추가!!!
         function save_profile() {
             let nickname = $("#nickname").val();
-            let field = $("#field").val();
-            let github = $("#github").val();
-            let blog = $("#blog").val();
-            let location = $("#location").val();
-            let interest = $("#interest").val();
             let MBTI = $("#MBTI").val();
+            let location = $("#location").val();
+            let social = $("#social_list").val();
+            let specialty = $("#specialty").val();
+            let interest = $("#interest").val();
+            let program = $("#program").val();
+            let course = $("#course").val();
+            let cohort = $("#chort").val();
+            let team = $("#team").val();
+            let image = $("#image").val();
             let formData = new FormData();
+
             formData.append("nickname_give", nickname);
-            formData.append("field_give", field);
-            formData.append("github_give", github);
-            formData.append("blog_give", blog);
-            formData.append("location_give", location);
-            formData.append("interest_give", interest);
             formData.append("MBTI_give", MBTI);
+            formData.append("location_give", location);
+            formData.append("social_give", social_list);
+            formData.append("specialty_give", specialty);
+            formData.append("interest_give", interest);
+            formData.append("interest_give", interest);
+            formData.append("program_give", program);
+            formData.append("course_give", course);
+            formData.append("cohort_give", cohort);
+            formData.append("team_give", team);
+            formData.append("image_give", image);
 
-
-            fetch('/register', { 
-                method: "POST", 
-                body: formData, })
+            fetch('/register', {
+                method: "POST",
+                body: formData,
+            })
                 .then((res) => res.json())
                 .then((data) => {
-                    // msg에 저장 완료 넣기
-                    alert(data["msg"]); 
-                    window.location.href='/'();
-            });
+                    alert(data["msg"]);
+                    window.location.href = '/'();
+                });
         }
     </script>
 
@@ -148,31 +157,6 @@
                             <label for="nickname" class="form-label">nickname</label>
                             <input type="text" class="form-control" id="nickname">
                         </div>
-                        <div class="col-12">
-                            <label for="field" class="form-label">field</label>
-                            <select id="field" class="form-select">
-                                <option selected>선택</option>
-                                <option>React</option>
-                                <option>Spring</option>
-                                <option>Node.js</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label for="github" class="form-label">github</label>
-                            <input type="text" class="form-control" id="github" placeholder="github.com">
-                        </div>
-                        <div class="col-12">
-                            <label for="blog" class="form-label">blog</label>
-                            <input type="text" class="form-control" id="blog" placeholder="blog.com">
-                        </div>
-                        <div class="col-12">
-                            <label for="location" class="form-label">location</label>
-                            <input type="text" class="form-control" id="location">
-                        </div>
-                        <div class="col-12">
-                            <label for="interest" class="form-label">interest</label>
-                            <input type="text" class="form-control" id="interest">
-                        </div>
                         <div class="col-md-4">
                             <label for="MBTI" class="form-label">MBTI</label>
                             <select id="MBTI" class="form-select">
@@ -194,6 +178,43 @@
                                 <option>ESFP</option>
                                 <option>ENFP</option>
                             </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="location" class="form-label">location</label>
+                            <input type="text" class="form-control" id="location">
+                        </div>
+                        <div class="col-12">
+                            <label for="social_list" class="form-label">social</label>
+                            <input type="text" class="form-control" id="social_list">
+                        </div>
+                        <div class="col-12">
+                            <label for="specialty" class="form-label">specialty</label>
+                            <select id="specialty" class="form-select">
+                                <option selected>선택</option>
+                                <option>React</option>
+                                <option>Spring</option>
+                                <option>Node.js</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="interest" class="form-label">interest</label>
+                            <input type="text" class="form-control" id="interest">
+                        </div>
+                        <div class="col-12">
+                            <label for="program" class="form-label">program</label>
+                            <input type="text" class="form-control" id="program" placeholder="항해">
+                        </div>
+                        <div class="col-12">
+                            <label for="cohort" class="form-label">cohort</label>
+                            <input type="text" class="form-control" id="cohort" placeholder="16기">
+                        </div>
+                        <div class="col-12">
+                            <label for="course" class="form-label">course</label>
+                            <input type="text" class="form-control" id="course" placeholder="웹 미니 프로젝트">
+                        </div>
+                        <div class="col-12">
+                            <label for="team" class="form-label">team</label>
+                            <input type="text" class="form-control" id="team" placeholder="5조">
                         </div>
                         <!-- 버튼 색 바꾸기 -->
                         <div class="col-12">

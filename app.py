@@ -151,7 +151,7 @@ def register_post():
     field_receive = request.form['field_give']
     github_receive= request.form['github_give']
     blog_receive = request.form['blog_give']
-    location_receive = request.form['lacation_give']
+    location_receive = request.form['location_give']
     interest_receive = request.form['interest_give']
     MBTI_receive = request.form['MBTI_give']
     
