@@ -34,6 +34,14 @@
     <!-- 공통 JS -->
     <script src="/static/js/script.js"></script>
     <style>
+        /* Profile 상단 소개글 */
+        .introduce {
+            width: 600px;
+            margin: 70px auto 0px auto;
+            padding-bottom: 70px;
+        }
+
+        /* Glimpse 배경이미지 */
         .mypic {
             width: 100%;
             height: 200px;
@@ -54,7 +62,50 @@
         }
 
         .mypic>h1 {
-            font-size: 30px;
+            font-size: 50px;
+        }
+
+        /* 댓글 남기기 작성 */
+        .mybox {
+            width: 95%;
+            max-width: 700px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px lightblue;
+            margin: 20px auto;
+        }
+
+        /* 댓글 보여주기 */
+        .mycomment {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mycomment>input {
+            width: 70%;
+        }
+
+        .mybox>li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 10px;
+            min-height: 48px;
+        }
+
+        .mybox>li>h2 {
+            max-width: 75%;
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: auto;
+            margin-bottom: 0px;
+        }
+
+        .mybox>li>h2.done {
+            text-decoration: line-through;
         }
     </style>
     <script>
@@ -95,7 +146,7 @@
             fetch(`/api/users/${userid_logined}`).then((res) => res.json()).then((data) => {
                 let rows = data['result']
                 $('#profile-box').empty()
-                rows.forEach((a) =>{
+                rows.forEach((a) => {
                     let user_nickname = a['user_nickname']
                     let MBTI = a['MBTI']
                     let location = a['location']
@@ -131,12 +182,15 @@
 </head>
 
 <body>
+    <header>
+        {% include "header.html" %}
+    </header>
     <div class="mypic">
         <h1>Glimpse</h1>
         <h5>우리 기수 쓱 한 번에 보기 👀</h5>
     </div>
-    <!-- 주문하기 -->
-    <div class="order">
+    <!-- 프로필 소개글 -->
+    <div class="introduce">
         <h1>PROFILE</h1>
         <p>
             스파르타 코딩클럽 멤버만 들어올 수 있는 커뮤니티<br />
