@@ -81,48 +81,9 @@
                 rows.forEach((a) => {
                     let comment = a['comment']
                     let temp_html = `<li>
-                                  <h2>✅ ${comment}</h2>
+                                  <h2> 💭${comment}</h2>
                               </li>`
                     $('#comment-list').append(temp_html)
-                })
-            })
-        }
-        // 화성 내용 저장하기
-        function save_order() {
-            let name = $('#name').val()
-            let address = $('#address').val()
-            let size = $('#size').val()
-
-            let formData = new FormData();
-            formData.append("name_give", name);
-            formData.append("address_give", address);
-            formData.append("size_give", size);
-
-            fetch('/mars', { method: "POST", body: formData }).then((res) => res.json()).then((data) => {
-                alert(data["msg"]);
-                window.location.reload()
-            });
-        }
-        // 화성 내용 출력하기
-        $(document).ready(function () {
-            show_order();
-        });
-        function show_order() {
-            fetch('/mars').then((res) => res.json()).then((data) => {
-                let rows = data['result']
-                $('#order-box').empty()
-                rows.forEach((a) =>{
-                    let name = a['name']
-                    let address = a['address']
-                    let size = a['size']
-
-                    let temp_html = `<li>
-                                        <p>이름 : ${name}</p>
-                                        <p>주소 :${address}</p>
-                                        <p>평수 :${size}</p>
-                                        <br>
-                                    </li>`
-                    $('#order-box').append(temp_html)
                 })
             })
         }
@@ -131,11 +92,10 @@
             show_register();
         });
         function show_register() {
-            fetch('/register').then((res) => res.json()).then((data) => {
+            fetch(`/api/users/${userid_logined}`).then((res) => res.json()).then((data) => {
                 let rows = data['result']
                 $('#profile-box').empty()
                 rows.forEach((a) =>{
-                    let userid_logined = localStorage.getItem(KEY_USER_ID)
                     let user_nickname = a['user_nickname']
                     let MBTI = a['MBTI']
                     let location = a['location']

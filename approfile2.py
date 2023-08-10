@@ -105,6 +105,21 @@ def query_login():
     token = make_token(result)
     return {'msg': '로그인 성공', 'token': token}
 
+# (JH) 유저 단일 조회 쿼리
+@app.route('/api/users/<user_id>')
+def query_users(user_id):
+    result = db.user_list.find_one({'user_id': user_id}, {'_id': False})
+    
+    # 유저 조회가 이뤄지지 않았으면 오류 발생.
+    if result is None:
+        return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
+    return {'result': result}
+
+# (JH) 유저 단일 조회 쿼리 - ID값이 빈 값으로 넘어옴.
+@app.route('/api/users/')
+def query_users_without_id():
+    return {'msg': '존재하지 않는 유저입니다. 정확한 ID를 입력해주세요.', 'error_code': 'USER_NOT_FOUNDED'}, 406
+
 # (JH) 회원가입 Query
 @app.route('/api/signup', methods=['POST'])
 def query_signup():
@@ -174,13 +189,13 @@ def register_post():
         'team' : team_receive,
         'image_receive' : image_receive
     }
-    db.cards.insert_one(doc)
+    db.user_list.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
 # JE 프로필 register 내용 출력하기
 @app.route("/register", methods=["GET"])
 def register_get():
-    register_data = list(db.cards.find({},{'_id':False}))
+    register_data = list(db.user_list.find({},{'_id':False}))
     return jsonify({'result':register_data})
 
 # JE 화성 내용 저장하기
