@@ -45,9 +45,9 @@
         });
 
         // Eric -> Yoonju : 카드 등록하기 누르면 이동
-        function resiger_card() {
+        function resiger_card(url) {
             // $('#post-box').show()
-            window.location.href = "/card_registeration.html"
+            window.location.href = url
         }
         
         // Eric : DB에서 받아온 카드 리스팅하기
@@ -140,35 +140,6 @@
         <h1> Glimpse: 우리 기수 쓱 한 번에 보기 </h1>
     </div>
 
-    <!-- <div class="mypost" id="post-box">
-        <div class="form-floating mb-3">
-            <input id="url" type="email" class="form-control" placeholder="name@example.com">
-            <label> Card URL </label>
-        </div>
-
-        <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupSelect01">별점</label>
-            <select class="form-select" id="star">
-                <option selected>-- 선택하기 --</option>
-                <option value="1">⭐</option>
-                <option value="2">⭐⭐</option>
-                <option value="3">⭐⭐⭐</option>
-                <option value="4">⭐⭐⭐⭐</option>
-                <option value="5">⭐⭐⭐⭐⭐</option>
-            </select>
-        </div>
-
-        <div class="form-floating">
-            <textarea id="comment" class="form-control" placeholder="Leave a comment here"></textarea>
-            <label for="floatingTextarea2">코멘트</label>
-        </div>
-
-        <div class="mybtns">
-            <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button>
-            <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
-        </div>
-    </div> -->
-
     <div class="left-navbar">
         <div class="left-navbar-menu">
             <p>category</p>
@@ -196,7 +167,7 @@
     <div class="body">
         <div class="cards-list">
             <h1 class="title-text"> 카드 목록</h1>
-            <button onclick="resiger_card()">내 카드 등록하기</button>
+            <button onclick="resiger_card('/card/registration')">내 카드 등록하기</button>
 
             <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box"></div>
         </div>
