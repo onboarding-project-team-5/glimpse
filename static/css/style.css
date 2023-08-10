@@ -57,6 +57,11 @@
     border: 2px solid white;
 }
 
+.see_more_btn {
+    border-radius: 10px;
+    background-color: antiquewhite;
+}
+
 img {
 
     object-fit: cover;
@@ -96,4 +101,8 @@ img {
     text-align: center;
     font-size: 42px;
     border: 1px solid black
+}
+
+.word {
+    font-style:italic;
 }
