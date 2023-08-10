@@ -36,16 +36,19 @@
     <script src="/static/js/script.js"></script>
 
     <style>
-        /* .form-label {
-            background-color: red;
-        } */
+
+        .form-label {
+            margin-bottom: -12px;
+        }
 
         .form-control {
             background-color: #f9f9f9;
+            margin-bottom: 12px;
         }
 
         .form-select {
             background-color: #f9f9f9;
+            margin-bottom: 12px;
         }
 
         .title {
@@ -83,6 +86,7 @@
             width: 12.5rem;
             height: 19.5rem;
         }
+
     </style>
 
     <script>
@@ -98,8 +102,8 @@
             let course = $("#course").val();
             let cohort = $("#chort").val();
             let team = $("#team").val();
-            let image = $("#image").val;
-            let resolution = $("#resolution").val;
+            let image = $("#image").val();
+            let resolution = $("#resolution").val();
             let formData = new FormData();
 
             formData.append("nickname_give", nickname);
@@ -107,7 +111,6 @@
             formData.append("location_give", location);
             formData.append("social_give", social_list);
             formData.append("specialty_give", specialty);
-            formData.append("interest_give", interest);
             formData.append("interest_give", interest);
             formData.append("program_give", program);
             formData.append("course_give", course);
@@ -148,7 +151,14 @@
                         <br /><br />
                         <div class = "col-12">
                             <label for="resolution" class="form-label">하고 싶은 말</label>
-                            <input type="text" class="form-control" id="resolution">
+                            <textarea class="form-control" id="resolution"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <!-- post -->
+                            <button onclick="save_profile()" class="btn btn-dark">등록</button>
+                            <!-- 홈으로 이동 -->
+                            <button onclick="location.href='/'" type="button" class="btn btn-outline-dark">다음에
+                                등록</button>
                         </div>                     
                     </form>
                 </div>
@@ -222,20 +232,8 @@
                             <label for="team" class="form-label">team</label>
                             <input type="text" class="form-control" id="team" placeholder="5조">
                         </div>
-                        <!-- 버튼 색 바꾸기 -->
-                        <div class="col-12">
-                            <!-- post -->
-                            <button onclick="save_profile()" class="btn btn-primary">등록</button>
-                            <!-- 홈으로 이동 -->
-                            <button onclick="location.href='/'" type="button" class="btn btn-outline-primary">다음에
-                                등록</button>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col" style="margin:3rem">
             </div>
         </div>
     </div>
