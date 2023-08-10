@@ -147,7 +147,7 @@ def query_signup():
     
     # 해당 유저 저장.
     doc = {
-        'user_name' : name,
+        'user_nickname' : name,
         'user_id' : id,
         'user_pw' : pw,
     }
