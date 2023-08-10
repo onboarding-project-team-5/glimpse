@@ -92,21 +92,20 @@
     <script>
         // 이미지 업로드 추가!!!
         function save_profile() {
-            let nickname = $("#nickname").val();
             let MBTI = $("#MBTI").val();
             let location = $("#location").val();
-            let social = $("#social_list").val();
+            let social_list = $("#social_list").val();
             let specialty = $("#specialty").val();
             let interest = $("#interest").val();
             let program = $("#program").val();
             let course = $("#course").val();
-            let cohort = $("#chort").val();
+            let cohort = $("#cohort").val();
             let team = $("#team").val();
             let image = $("#image").val();
             let resolution = $("#resolution").val();
             let formData = new FormData();
 
-            formData.append("nickname_give", nickname);
+            formData.append("uid", localStorage.getItem(KEY_USER_ID));
             formData.append("MBTI_give", MBTI);
             formData.append("location_give", location);
             formData.append("social_give", social_list);
@@ -126,7 +125,7 @@
                 .then((res) => res.json())
                 .then((data) => {
                     alert(data["msg"]);
-                    window.location.href = '/'();
+                    window.location.href = '/';
                 });
         }
     </script>
@@ -165,10 +164,6 @@
                 <!-- 좌우 여백 주기 -->
                 <div class="form row col-6">
                         <legend>프로필 등록하기</legend>
-                        <div class="col-12">
-                            <label for="nickname" class="form-label">nickname</label>
-                            <input type="text" class="form-control" id="nickname">
-                        </div>
                         <div class = "col-12">
                             <label for="image" class="form-label">image URL</label>
                             <input type="text" class="form-control" id="image">

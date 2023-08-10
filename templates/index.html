@@ -45,10 +45,16 @@
         });
 
         // Eric -> Yoonju : 카드 등록하기 누르면 이동
-        function resiger_card(url) {
+        function register_card(url) {
             // $('#post-box').show()
             window.location.href = url
         }
+        // Eric -> JE : 더보기 누르면 유저 상세 페이지로 이동
+        function see_user_profile(url) {
+            // $('#post-box').show()
+            window.location.href = url
+        }
+
         
         // Eric : DB에서 받아온 카드 리스팅하기
         function cards_listing() {
@@ -61,13 +67,11 @@
                 rows.forEach((a) => {
                     let user_id = a['user_id']
                     let nickname = a['user_nickname']
-
-                    let mbti = a['MBIT']
+                    let mbti = a['MBTI']
                     let location = a['location']
-                    let social_list_github = a['social_list'][0]['github']
+                    let social_list_github = a['social_list']
                     let specialty = a['specialty']
                     let interset = a['interest']
-                    let likes = a['likes']
 
                     let program = a['program']
                     let course = a['course']
@@ -76,55 +80,57 @@
 
                     let profile_image = a['profile_image']
                     let resolution = a['resolution']
+                    let has_card = a['has_card']
 
+                    let temp_html = ``
 
-                    let temp_html =
-                                                `<div class="col">
-                                                    <div class="card h-100">
-                                                        <img src="${profile_image}" class="card-img-top" alt="...">
-                                                        <div class="card-body">
-                                                            <h2 class="nickname"> 닉네임: ${nickname}</h2>
-                                                            <p class="mbti"> MBTI: ${mbti}</p>                                                
-                                                            <p class="location"> 지역: ${location}</p>
-                                                            <p class="social_github"> Gitbub: ${social_list_github}</p>
-                                                            <p class="specialty"> 주특기: ${specialty}</p>
-                                                            <p class="interest"> 관심사/취미: ${interset}</p>
-                                                            
-                                                            <p class="program"> 프로그램: ${program}</p>                                                
-                                                            <p class="course"> 수강코스: ${course}</p>
-                                                            <p class="cohort"> 기수: ${cohort}기 </p>
-                                                            <p class="team"> 모든 팀들: ${team} </p>
-                                                            
-                                                            <button id="like_btn" type="button" class="btn btn-outline-primary" onclick="addLike(4)"> 하트(이미지로 변경 예정)</button>
-                                                            <p class="likes"> 좋아요 ${likes}개 </p>
-                                                            <button id="more_btn" class="btn btn-primary">더보기</button>
-                                                        </div>
-                                                    </div>
-                                                </div>`
+                    if (has_card == 1){
+                        temp_html =
+                                    `<div class="col">
+                                        <div class="card h-100">
+                                            <img src="${profile_image}" class="card-img-top" alt="...">
+                                            <div class="card-body">
+                                                <h2 class="nickname"> 닉네임: ${nickname}</h2>
+                                                <p class="mbti"> <b>MBTI</b>: ${mbti}</p>                                                
+                                                <p class="location"> <b>지역</b>: ${location}</p>
+                                                <p class="social_github"> <b>Gitbub</b>: ${social_list_github}</p>
+                                                <p class="specialty"> <b>주특기</b>: ${specialty}</p>
+                                                <p class="interest"> <b>관심사/취미</b>: ${interset}</p>
+                                                
+                                                <p class="program"> <b>프로그램</b>: ${program}</p>                                                
+                                                <p class="course"> <b>수강코스</b>: ${course}</p>
+                                                <p class="cohort"> <b>기수</b>: ${cohort}기 </p>
+                                                <p class="team"> <b>모든 팀들</b>: ${team} </p>
+                                                <button class='see_more_btn' onclick="see_user_profile('/profile/${user_id}')">더보기</button>
+                                            </div>
+                                        </div>
+                                    </div>`
+                        $('#cards-box').append(temp_html)
+                    }
 
-                    $('#cards-box').append(temp_html)
+                    
                 })
             })
         }
 
-        // --- 카드 좋아요 시작 ---
-        // Operations
-        function countPlus(likeCnt) {
-            likeCnt++;
-            document.querySelector(".like_count").innerHTML = "좋아요 " + likeCnt + "개";
+        // // --- 카드 좋아요 시작 ---
+        // // Operations
+        // function countPlus(likeCnt) {
+        //     likeCnt++;
+        //     document.querySelector(".like_count").innerHTML = "좋아요 " + likeCnt + "개";
 
-            //카드 좋아요 업데이트 호출
-            updateLike(likeCnt);
-        }
+        //     //카드 좋아요 업데이트 호출
+        //     updateLike(likeCnt);
+        // }
 
-        // POST
-        function addLike(likeCnt) {
-        }
+        // // POST
+        // function addLike(likeCnt) {
+        // }
 
-        // PUT 카드 좋아요 업데이트
-        function updateLike(count) {
-        }
-            // ---- 카드 좋아요 끝 ---
+        // // PUT 카드 좋아요 업데이트
+        // function updateLike(count) {
+        // }
+        //     // ---- 카드 좋아요 끝 ---
 
     </script>
 
@@ -166,7 +172,7 @@
     <div class="body">
         <h1 class="title-text"> 카드 목록 </h1>
         <div class="cards-list">
-            <button onclick="resiger_card('/card/registration')">내 카드 등록하기</button>
+            <button onclick="register_card('/card/registration')">내 카드 등록하기</button>
 
             <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box"></div>
         </div>
