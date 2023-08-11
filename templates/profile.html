@@ -13,14 +13,14 @@
         }
 
         /* 프로필 폼 담는 구간 */
-        .profile-text{
-            color : black;
-            height: 750px;
+        .profile-text {
+            color: black;
+            height: 850px;
 
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size : 20px;
+            font-size: 20px;
         }
 
         /* Glimpse 배경이미지 */
@@ -115,36 +115,41 @@
                 $('#profile-box').empty()
 
                 let profile_image = a['profile_image']
-                let user_nickname = a['user_nickname']
-                let MBTI = a['MBTI']
+                let user_id = a['user_id']
+                let nickname = a['user_nickname']
+                let mbti = a['MBTI']
                 let location = a['location']
+                let social_list_github = a['social_list']
                 let specialty = a['specialty']
-                let interest = a['interest']
+                let target_industry = a['target_industry']
+                let interset = a['interest']
+
                 let program = a['program']
                 let course = a['course']
                 let cohort = a['cohort']
                 let team = a['team']
 
-                let social_list = []
-                for (const key in a['social_list'][0]) {
-                    let value = a['social_list'][0][key]
-                    social_list.push(`<a href="${value}">${key}</a>`)
-                }
-                social_list.join(", ")
+                let github_image_url = a['github_image_url']
+                let github_repo_count = a['github_repo_count']
+                let resolution = a['resolution']
 
                 let temp_html = `<li>
-                                    <img src="${profile_image}" style="width: 100px;" />
-                                    <p> 닉네임 : ${user_nickname}</p>
-                                    <p> MBTI :${MBTI}</p>
-                                    <p> 지역 :${location}</p>
-                                    <p> sns : ${social_list}</p>
-                                    <p> 주특기 : ${specialty}</p>
-                                    <p> 취미 : ${interest}</p>
-                                    <p> 프로그램 : ${program}</p>
-                                    <p> 과정 : ${course}</p>
-                                    <p> 기수 : ${cohort}</p>
-                                    <p> 조 : ${team}</p>
-                                    <br>
+                                    <img src="${github_image_url}" style="width: 100px;" />
+                                    <h1 class="nickname"> ${nickname}</h2>
+                                    <p class="mbti"> <b>MBTI</b>: ${mbti}</p>                                                
+                                    <p class="location"> <b>지역</b>: ${location}</p>
+                                    <p class="social_github"> <b>Gitbub</b>: ${social_list_github}</p>
+                                    <p class="github_repo_count"> <b>Gitbub Repo 수</b>: ${github_repo_count}</p>
+                                    <p class="specialty"> <b>주특기</b>: ${specialty}</p>
+                                    <p class="target_industry"> <b>관심 산업/회사</b>: ${target_industry}</p>
+                                    <p class="interest"> <b>관심사/취미</b>: ${interset}</p>
+                                                
+                                    <p class="program"> <b>프로그램</b>: ${program}</p>                                                
+                                    <p class="course"> <b>수강코스</b>: ${course}</p>
+                                    <p class="cohort"> <b>기수</b>: ${cohort}기 </p>
+                                    <p class="team"> <b> 프로그램간 함께 했던 팀(들)</b>: ${team} </p>
+                                                
+                                    <p class="resolution"> <b> 하고 싶은 말</b>: ${resolution} </p>
                                 </li>`
                 $('#profile-box').append(temp_html)
             })
@@ -165,7 +170,7 @@
         // 댓글comment보여주기
         $(document).ready(function () {
             let user_id = whoareyou()
-            
+
             show_user_comments(user_id);
         });
         function show_user_comments(user_id) {
@@ -177,11 +182,11 @@
                     let user_id = a['user_id']
 
                     let temp_html = ``
-                    if (user_id == user_id){
+                    if (user_id == user_id) {
                         temp_html = `<li>
                                         <h2> 💭${comment}</h2>
                                     </li>`
-                    }                
+                    }
                     $('#comment-list').append(temp_html)
                 })
             })
