@@ -141,7 +141,7 @@ def collect_distinct_items():
 # (JH) 특정 값에 일치하는 카드들 목록 load
 @app.route('/api/<column>/<item>/cards')
 def query_team_cards(column, item):
-    result = list(db.user_list.find({column: item}, {'_id':False}))
+    result = list(db.user_list.find({column: item, 'has_card': 1}, {'_id':False}))
     return {"result": result}
 
 
