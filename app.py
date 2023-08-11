@@ -6,6 +6,7 @@ from utils.jwt import make_token
 
 app = Flask(__name__)
 
+# DB 연결
 from pymongo import MongoClient
 # from certifi import where
 import certifi
@@ -13,6 +14,15 @@ import certifi
 ca = certifi.where()
 client = MongoClient('mongodb+srv://sparta:test@cluster0.3lyhcbq.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.dbsparta
+
+# 크롤링
+import requests
+from bs4 import BeautifulSoup
+
+# 숫자만 빼내기
+import re
+
+# -----------------
 
 
 # 메인 페이지
@@ -125,12 +135,25 @@ def query_signup():
 def home():
     return render_template('card_registeration.html')
 
+# (Eric) extracting number from ogdescription for github repo count
+# def extract_numbers(sentence):
+#     numbers = re.findall(r'\d+', sentence)
+#     return [int(number) for number in numbers]
+
+def extract_number(sentence):
+    match = re.search(r'\d+', sentence)
+    if match:
+        return int(match.group())
+    else:
+        return None  # If no number is found
+
 @app.route("/register", methods=["POST"])
 def register_post():
+    # 유저 정보를 card_registration.html form에서 받기
     uid = request.form['uid']
     MBTI_receive = request.form['MBTI_give']
     location_receive = request.form['location_give']
-    social_receive = request.form['social_give']
+    social_receive = request.form['social_give'] # social은 github
     specialty_receive = request.form['specialty_give']
     interest_receive = request.form['interest_give']
     program_receive = request.form['program_give']
@@ -139,8 +162,22 @@ def register_post():
     team_receive = request.form['team_give']
     image_receive = request.form['image_give']
     resolution_receive = request.form['resolution_give']
+    target_industry_receive = request.form['targetindustry_give']
     
-    # 이미지 추가
+    # 크롤링: github 링크를 받아서 이미지 파일 추출하기
+    headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(social_receive,headers=headers)
+    soup = BeautifulSoup(data.text, 'html.parser')
+    # Github 프로필 페이지에서 이미지 뽑아내기
+    # <meta property="og:image" content="https://avatars.githubusercontent.com/u/12006951?v=4?s=400"> 200x200
+    ogimage = soup.select_one('meta[property="og:image"]')['content']
+    ogdesc = soup.select_one('meta[property="og:description"]')['content']
+    
+    image_github_url = ogimage
+    repo_count = extract_number(ogdesc) # repository 수
+    print(repo_count)
+
+    # DB에 보낼 document구성
     doc = {
         'MBTI' : MBTI_receive,
         'location': location_receive,
@@ -152,7 +189,10 @@ def register_post():
         'cohort' : cohort_receive,
         'team' : team_receive,
         'profile_image' : image_receive,
+        'github_image_url': image_github_url,
+        'github_repo_count': repo_count,
         'resolution' : resolution_receive,
+        'target_industry': target_industry_receive,
         'has_card' : 1,
     }
     db.user_list.update_one({'user_id': uid},{'$set':doc})
