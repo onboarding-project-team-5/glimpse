@@ -185,7 +185,7 @@ def register_post():
     course_receive= request.form['course_give']
     cohort_receive = request.form['cohort_give']
     team_receive = request.form['team_give']
-    image_receive = request.form['image_give']
+    # image_receive = request.form['image_give']
     resolution_receive = request.form['resolution_give']
     target_industry_receive = request.form['targetindustry_give']
     
@@ -213,7 +213,7 @@ def register_post():
         'course' : course_receive,
         'cohort' : cohort_receive,
         'team' : team_receive,
-        'profile_image' : image_receive,
+        # 'profile_image' : image_receive,
         'github_image_url': image_github_url,
         'github_repo_count': repo_count,
         'resolution' : resolution_receive,
