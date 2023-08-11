@@ -165,12 +165,26 @@ def home():
 #     numbers = re.findall(r'\d+', sentence)
 #     return [int(number) for number in numbers]
 
-def extract_number(sentence):
-    match = re.search(r'\d+', sentence)
+# def extract_number(sentence):
+#     match = re.search(r'\d+', sentence)
+#     if match:
+#         return int(match.group())
+#     else:
+#         return None  # If no number is found
+
+
+def extract_value(sentence):
+    pattern = r'has (\S+) repository'  # \S+ matches any non-space characters
+    match = re.search(pattern, sentence)
     if match:
-        return int(match.group())
+        value = match.group(1)
+        if value.isdigit():  # Check if the value is a digit
+            value = int(value)
+        elif value.lower() == "one":
+            value = 1
+        return value
     else:
-        return None  # If no number is found
+        return None  # If no match is found
 
 @app.route("/register", methods=["POST"])
 def register_post():
@@ -198,9 +212,10 @@ def register_post():
     ogimage = soup.select_one('meta[property="og:image"]')['content']
     ogdesc = soup.select_one('meta[property="og:description"]')['content']
     
+    # print(ogdesc)
     image_github_url = ogimage
-    repo_count = extract_number(ogdesc) # repository 수
-    print(repo_count)
+    repo_count = extract_value(ogdesc) # repository 수
+    # print(repo_count)
 
     # DB에 보낼 document구성
     doc = {
