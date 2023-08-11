@@ -170,7 +170,7 @@ def cards_get():
 
 
 # JE 프로필 register 내용 출력하기
-@app.route("/register", methods=["GET"])
+@app.route("/api/users/${user_id}", methods=["GET"])
 def register_get():
     register_data = list(db.user_list.find({},{'_id':False}))
     return jsonify({'result':register_data})
