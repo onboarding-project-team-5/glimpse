@@ -1,0 +1,20 @@
+<div class="category dropdown" type="button" id="category-2">
+    <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+    >MBTI</div>
+    <ul class="dropdown-menu">
+        {% for item in mbti %}
+            <li><div class="dropdown-item" onclick="get_mbti('{{ item }}')"
+                >{{ item }}</div></li>
+        {% endfor %}
+    </ul>
+    <script>
+        function get_mbti(item) {
+            fetch(`/api/MBTI/${item}/cards`)
+            .then(a => a.json())
+            .then(data => {
+                let rows = data['result']
+                stack_rows(rows)
+            })
+        }
+    </script>
+</div>

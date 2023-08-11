@@ -50,11 +50,6 @@
         </style>
 
         <script>
-            function handle_login() {
-                // 로그인 버튼 클릭 시, 로그인 페이지로 이동.
-                window.location.href = '/login'
-            }
-
             function handle_signup() {
                 let id = $('#input_id > div > input').val();
                 let pw = $('#input_pw > div > input').val();
@@ -125,7 +120,6 @@
             </div>
 
             <div id="input_btn" class="row">
-                <button onclick="handle_login()" type="button" class="col btn btn-login">로그인</button>
                 <button onclick="handle_signup()" type="button" class="col btn btn-signup">회원 가입</button>
             </div>
         </div>
