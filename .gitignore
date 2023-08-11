@@ -1,1 +1,4 @@
 venv/**
+vevn/**
+**/__pycashe__/**
+.vscode/**
