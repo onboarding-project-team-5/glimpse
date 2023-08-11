@@ -10,23 +10,42 @@
 
 
     <script>
-
         $(document).ready(function () {
             cards_listing();
         });
 
         // Eric -> Yoonju : 카드 등록하기 누르면 이동
+        // 프로필 소유자 메인페이지 이동
+
+        // YJ 카드 등록 사용자 메인페이지로 이동
         function register_card(url) {
-            // $('#post-box').show()
-            window.location.href = url
+            let login_id = localStorage.getItem(KEY_USER_ID)
+            fetch('/cards_get').then((res) => res.json()).then((data) => {
+                let id = data['result']
+                id.forEach((a) => {
+                    if (a['user_id'] = login_id) {
+                        hascard = a['has_card']
+                    }
+                })
+                console.log(hascard)
+                if (hascard == 0) {
+                    $('#post-box').show()
+                    window.location.href = url
+                } else {
+                    alert("이미 등록된 사용자입니다")
+                    window.location.href = '/'
+                }
+            })
+
         }
+
         // Eric -> JE : 더보기 누르면 유저 상세 페이지로 이동
         function see_user_profile(url) {
             // $('#post-box').show()
             window.location.href = url
         }
 
-        
+
         // Eric : DB에서 받아온 카드 리스팅하기
         function cards_listing() {
             fetch('/cards_get').then((res) => res.json()).then((data) => {
@@ -55,9 +74,9 @@
 
                     let temp_html = ``
 
-                    if (has_card == 1){
+                    if (has_card == 1) {
                         temp_html =
-                                    `<div class="col">
+                            `<div class="col">
                                         <div class="card h-100">
                                             <img src="${profile_image}" class="card-img-top" alt="...">
                                             <div class="card-body">
@@ -79,7 +98,7 @@
                         $('#cards-box').append(temp_html)
                     }
 
-                    
+
                 })
             })
         }
