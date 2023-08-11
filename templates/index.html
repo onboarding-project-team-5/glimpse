@@ -50,9 +50,9 @@
                         hascard = a['has_card']
                     }
                 })
-                console.log(hascard)
+                console.log(hascard, url)
                 if (hascard == 0) {
-                    $('#post-box').show()
+                    // $('#post-box').show()
                     window.location.href = url
                 } else {
                     alert("이미 등록된 사용자입니다")

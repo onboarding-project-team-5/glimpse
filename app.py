@@ -237,7 +237,7 @@ def register_post():
     }
     db.user_list.update_one({'user_id': uid},{'$set':doc})
     # 성공여부 추가, 성공 시 fuction 에 사용
-    return jsonify({'result': 'success', 'msg': '저장 완료!'})
+    return jsonify({'result': 'success', 'msg': '카드 등록 완료!'})
 
 
 ## (Eric) Profile Cards들을 리스팅

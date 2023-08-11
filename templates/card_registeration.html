@@ -5,7 +5,6 @@
     {% include "head.html" %}
 
     <style>
-
         .form-label {
             margin-bottom: -12px;
         }
@@ -55,7 +54,6 @@
             width: 12.5rem;
             height: 19.5rem;
         }
-
     </style>
 
     <script>
@@ -73,7 +71,7 @@
             // let image = $("#image").val();
             let resolution = $("#resolution").val();
             let target_industry = $("#target_industry").val();
-            
+
             let formData = new FormData();
 
             formData.append("uid", localStorage.getItem(KEY_USER_ID));
@@ -90,14 +88,29 @@
             formData.append("resolution_give", resolution);
             formData.append("targetindustry_give", target_industry);
 
+            // fetch('/register', {
+            //     method: "POST",
+            //     body: formData,
+            // })
+            //     .then((res) => res.json())
+            //     .then((data) => {
+            //         console.log(data)
+            //         alert(data["msg"]);
+            //         window.location.href = '/';
+            //     });
             fetch('/register', {
                 method: "POST",
                 body: formData,
             })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log(data);
                     alert(data["msg"]);
-                    window.location.href='/';
+                    window.location.href = '/';
+                })
+                .catch((error) => {
+                    console.error("Error occurred:", error);
+                    alert("An error occurred while registering the profile.");
                 });
         }
     </script>
@@ -109,7 +122,7 @@
     <header>
         {% include "header.html" %}
     </header>
-    
+
     <div class="title">
         <div class="profile">
             <div class="profile_body row">
@@ -117,12 +130,12 @@
                     <!-- 사진 미리보기 위에 PROFILE 추가 -->
                     <!-- img 좌우 여백 넣기! -->
                     <form class="upload_photo">
-                        <img id="preview" class="card-img"
-                            src="/static/img/profile.png" alt="미리보기" />
+                        <img id="preview" class="card-img" src="/static/img/profile.png" alt="미리보기" />
                         <br /><br />
-                        <div class = "col-12">
+                        <div class="col-12">
                             <label for="resolution" class="form-label">하고 싶은 말</label>
-                            <textarea class="form-control" id="resolution" placeholder="이곳에 주제(프로그램에 임하는 패기, 원하는 목표, 이상형 등) 상관없이 편하게 적어주세요"></textarea>
+                            <textarea class="form-control" id="resolution"
+                                placeholder="이곳에 주제(프로그램에 임하는 패기, 원하는 목표, 이상형 등) 상관없이 편하게 적어주세요"></textarea>
                         </div>
                         <div class="col-12">
                             <!-- post -->
@@ -130,83 +143,87 @@
                             <!-- 홈으로 이동 -->
                             <button onclick="location.href='/'" type="button" class="btn btn-outline-dark">다음에
                                 등록</button>
-                        </div>                     
+                        </div>
                     </form>
                 </div>
                 <!-- 좌우 여백 주기 -->
                 <div class="form row col-6">
-                        <legend>프로필 등록하기</legend>
-                        <!-- <div class = "col-12">
+                    <legend>프로필 등록하기</legend>
+                    <!-- <div class = "col-12">
                             <label for="image" class="form-label">image URL</label>
                             <input type="text" class="form-control" id="image">
                         </div> -->
-                        <div class="col-12">
-                            <label for="MBTI" class="form-label">MBTI</label>
-                            <select id="MBTI" class="form-select">
-                                <option selected>선택</option>
-                                <option>ISTJ</option>
-                                <option>INTJ</option>
-                                <option>ESTJ</option>
-                                <option>ENTJ</option>
-                                <option>ISTP</option>
-                                <option>INTP</option>
-                                <option>ESTP</option>
-                                <option>ENTP</option>
-                                <option>ISFJ</option>
-                                <option>INFJ</option>
-                                <option>ESFJ</option>
-                                <option>ENFJ</option>
-                                <option>ISFP</option>
-                                <option>INFP</option>
-                                <option>ESFP</option>
-                                <option>ENFP</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label for="location" class="form-label">location</label>
-                            <input type="text" class="form-control" id="location" placeholder="서울">
-                        </div>
-                        <div class="col-12">
-                            <label for="social_list" class="form-label">Github URL (https://github.com/{username} 양식을 맞춰주세요)</label>
-                            <input type="text" class="form-control" id="social_list" placeholder="https://github.com/EbookFoundation">
-                        </div>
-                        <div class="col-12">
-                            <label for="specialty" class="form-label">specialty</label>
-                            <select id="specialty" class="form-select">
-                                <option selected>선택</option>
-                                <option>React</option>
-                                <option>Spring</option>
-                                <option>Node.js</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label for="target_industry" class="form-label">target industry (관심있는/일하고 싶은 산업군 혹은 회사를 적어주세요)</label>
-                            <input type="text" class="form-control" id="target_industry" placeholder="Fintech, SaaS, e-commerce, Apple, Amazon">
-                        </div>
-                        <div class="col-12">
-                            <label for="interest" class="form-label">interest/hobby</label>
-                            <input type="text" class="form-control" id="interest" placeholder="테니스, 영화보기">
-                        </div>
-                        <div class="col-12">
-                            <label for="program" class="form-label">program</label>
-                            <input type="text" class="form-control" id="program" placeholder="항해99, 창">
-                        </div>
-                        <div class="col-12">
-                            <label for="course" class="form-label">course</label>
-                            <input type="text" class="form-control" id="course" placeholder="웹개발 종합반, 파이썬 문법 뽀개기">
-                        </div>
-                        <div class="col-12">
-                            <label for="cohort" class="form-label">cohort 기수 (숫자만 입력해주세요)</label>
-                            <input type="text" class="form-control" id="cohort" placeholder="16">
-                        </div>
-                        <div class="col-12">
-                            <label for="team" class="form-label">team 조 (숫자만 입력해주세요)</label>
-                            <input type="text" class="form-control" id="team" placeholder="5">
-                        </div>
+                    <div class="col-12">
+                        <label for="MBTI" class="form-label">MBTI</label>
+                        <select id="MBTI" class="form-select">
+                            <option selected>선택</option>
+                            <option>ISTJ</option>
+                            <option>INTJ</option>
+                            <option>ESTJ</option>
+                            <option>ENTJ</option>
+                            <option>ISTP</option>
+                            <option>INTP</option>
+                            <option>ESTP</option>
+                            <option>ENTP</option>
+                            <option>ISFJ</option>
+                            <option>INFJ</option>
+                            <option>ESFJ</option>
+                            <option>ENFJ</option>
+                            <option>ISFP</option>
+                            <option>INFP</option>
+                            <option>ESFP</option>
+                            <option>ENFP</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="location" class="form-label">location</label>
+                        <input type="text" class="form-control" id="location" placeholder="서울">
+                    </div>
+                    <div class="col-12">
+                        <label for="social_list" class="form-label">Github URL (https://github.com/{username} 양식을
+                            맞춰주세요)</label>
+                        <input type="text" class="form-control" id="social_list"
+                            placeholder="https://github.com/EbookFoundation">
+                    </div>
+                    <div class="col-12">
+                        <label for="specialty" class="form-label">specialty</label>
+                        <select id="specialty" class="form-select">
+                            <option selected>선택</option>
+                            <option>React</option>
+                            <option>Spring</option>
+                            <option>Node.js</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="target_industry" class="form-label">target industry (관심있는/일하고 싶은 산업군 혹은 회사를
+                            적어주세요)</label>
+                        <input type="text" class="form-control" id="target_industry"
+                            placeholder="Fintech, SaaS, e-commerce, Apple, Amazon">
+                    </div>
+                    <div class="col-12">
+                        <label for="interest" class="form-label">interest/hobby</label>
+                        <input type="text" class="form-control" id="interest" placeholder="테니스, 영화보기">
+                    </div>
+                    <div class="col-12">
+                        <label for="program" class="form-label">program</label>
+                        <input type="text" class="form-control" id="program" placeholder="항해99, 창">
+                    </div>
+                    <div class="col-12">
+                        <label for="course" class="form-label">course</label>
+                        <input type="text" class="form-control" id="course" placeholder="웹개발 종합반, 파이썬 문법 뽀개기">
+                    </div>
+                    <div class="col-12">
+                        <label for="cohort" class="form-label">cohort 기수 (숫자만 입력해주세요)</label>
+                        <input type="text" class="form-control" id="cohort" placeholder="16">
+                    </div>
+                    <div class="col-12">
+                        <label for="team" class="form-label">team 조 (숫자만 입력해주세요)</label>
+                        <input type="text" class="form-control" id="team" placeholder="5">
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 
