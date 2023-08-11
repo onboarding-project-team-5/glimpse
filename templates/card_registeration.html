@@ -70,8 +70,10 @@
             let course = $("#course").val();
             let cohort = $("#cohort").val();
             let team = $("#team").val();
-            let image = $("#image").val();
+            // let image = $("#image").val();
             let resolution = $("#resolution").val();
+            let target_industry = $("#target_industry").val();
+            
             let formData = new FormData();
 
             formData.append("uid", localStorage.getItem(KEY_USER_ID));
@@ -84,8 +86,9 @@
             formData.append("course_give", course);
             formData.append("cohort_give", cohort);
             formData.append("team_give", team);
-            formData.append("image_give", image);
+            // formData.append("image_give", image);
             formData.append("resolution_give", resolution);
+            formData.append("targetindustry_give", target_industry);
 
             fetch('/register', {
                 method: "POST",
@@ -119,7 +122,7 @@
                         <br /><br />
                         <div class = "col-12">
                             <label for="resolution" class="form-label">하고 싶은 말</label>
-                            <textarea class="form-control" id="resolution"></textarea>
+                            <textarea class="form-control" id="resolution" placeholder="이곳에 주제(프로그램에 임하는 패기, 원하는 목표, 이상형 등) 상관없이 편하게 적어주세요"></textarea>
                         </div>
                         <div class="col-12">
                             <!-- post -->
@@ -133,10 +136,10 @@
                 <!-- 좌우 여백 주기 -->
                 <div class="form row col-6">
                         <legend>프로필 등록하기</legend>
-                        <div class = "col-12">
+                        <!-- <div class = "col-12">
                             <label for="image" class="form-label">image URL</label>
                             <input type="text" class="form-control" id="image">
-                        </div>
+                        </div> -->
                         <div class="col-12">
                             <label for="MBTI" class="form-label">MBTI</label>
                             <select id="MBTI" class="form-select">
@@ -161,11 +164,11 @@
                         </div>
                         <div class="col-12">
                             <label for="location" class="form-label">location</label>
-                            <input type="text" class="form-control" id="location">
+                            <input type="text" class="form-control" id="location" placeholder="서울">
                         </div>
                         <div class="col-12">
-                            <label for="social_list" class="form-label">social</label>
-                            <input type="text" class="form-control" id="social_list">
+                            <label for="social_list" class="form-label">Github URL (https://github.com/{username} 양식을 맞춰주세요)</label>
+                            <input type="text" class="form-control" id="social_list" placeholder="https://github.com/EbookFoundation">
                         </div>
                         <div class="col-12">
                             <label for="specialty" class="form-label">specialty</label>
@@ -177,24 +180,28 @@
                             </select>
                         </div>
                         <div class="col-12">
-                            <label for="interest" class="form-label">interest</label>
-                            <input type="text" class="form-control" id="interest">
+                            <label for="target_industry" class="form-label">target industry (관심있는/일하고 싶은 산업군 혹은 회사를 적어주세요)</label>
+                            <input type="text" class="form-control" id="target_industry" placeholder="Fintech, SaaS, e-commerce, Apple, Amazon">
+                        </div>
+                        <div class="col-12">
+                            <label for="interest" class="form-label">interest/hobby</label>
+                            <input type="text" class="form-control" id="interest" placeholder="테니스, 영화보기">
                         </div>
                         <div class="col-12">
                             <label for="program" class="form-label">program</label>
-                            <input type="text" class="form-control" id="program" placeholder="항해">
-                        </div>
-                        <div class="col-12">
-                            <label for="cohort" class="form-label">cohort</label>
-                            <input type="text" class="form-control" id="cohort" placeholder="16기">
+                            <input type="text" class="form-control" id="program" placeholder="항해99, 창">
                         </div>
                         <div class="col-12">
                             <label for="course" class="form-label">course</label>
-                            <input type="text" class="form-control" id="course" placeholder="웹 미니 프로젝트">
+                            <input type="text" class="form-control" id="course" placeholder="웹개발 종합반, 파이썬 문법 뽀개기">
                         </div>
                         <div class="col-12">
-                            <label for="team" class="form-label">team</label>
-                            <input type="text" class="form-control" id="team" placeholder="5조">
+                            <label for="cohort" class="form-label">cohort 기수 (숫자만 입력해주세요)</label>
+                            <input type="text" class="form-control" id="cohort" placeholder="16">
+                        </div>
+                        <div class="col-12">
+                            <label for="team" class="form-label">team 조 (숫자만 입력해주세요)</label>
+                            <input type="text" class="form-control" id="team" placeholder="5">
                         </div>
                     </div>
                 </div>

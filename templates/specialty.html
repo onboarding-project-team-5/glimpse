@@ -1,0 +1,20 @@
+<div class="category dropdown" type="button" id="category-1">
+    <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+    >주특기</div>
+    <ul class="dropdown-menu">
+        {% for item in specialty %}
+            <li><div class="dropdown-item" onclick="get_specialty('{{ item }}')"
+                >{{ item }}</div></li>
+        {% endfor %}
+    </ul>
+    <script>
+        function get_specialty(item) {
+            fetch(`/api/specialty/${item}/cards`)
+            .then(a => a.json())
+            .then(data => {
+                let rows = data['result']
+                stack_rows(rows)
+            })
+        }
+    </script>
+</div>

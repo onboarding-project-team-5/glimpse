@@ -2,7 +2,30 @@
 <html>
 
 <head>
-    {% include "head.html" %}
+    <meta charset="utf-8">
+    <!-- Page Title -->
+    <title> Glimpse </title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/favicon.png" type="image/png">
+
+    <!-- Boostrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <!-- Boostrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- 공통 CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- 공통 JS -->
+    <script src="/static/js/script.js"></script>
 
     <style>
 
@@ -50,7 +73,7 @@
         function cards_listing() {
             fetch('/cards_get').then((res) => res.json()).then((data) => {
                 let rows = data['result']
-                console.log(rows)
+                // console.log(rows)
                 // console.log(rows[0]['social_list'][0]['github'])
 
                 $('#cards-box').empty()
@@ -61,6 +84,7 @@
                     let location = a['location']
                     let social_list_github = a['social_list']
                     let specialty = a['specialty']
+                    let target_industry = a['target_industry']
                     let interset = a['interest']
 
                     let program = a['program']
@@ -69,28 +93,36 @@
                     let team = a['team']
 
                     let profile_image = a['profile_image']
+                    let github_image_url = a['github_image_url']                    
+                    let github_repo_count = a['github_repo_count']
                     let resolution = a['resolution']
+
                     let has_card = a['has_card']
 
-                    let temp_html = ``
 
-                    if (has_card == 1) {
+                    let temp_html = ``
+                    // <img src="${profile_image}" class="card-img-top" alt="...">
+                    if (has_card == 1){
                         temp_html =
-                            `<div class="col">
-                                        <div class="card h-100">
-                                            <img src="${profile_image}" class="card-img-top" alt="...">
+                                    `<div class="col">
+                                        <div class="card h-100">                        
+                                            <img src="${github_image_url}" class="card-img-top" alt="...">
                                             <div class="card-body">
-                                                <h2 class="nickname"> 닉네임: ${nickname}</h2>
+                                                <h2 class="nickname"> ${nickname}</h2>
                                                 <p class="mbti"> <b>MBTI</b>: ${mbti}</p>                                                
                                                 <p class="location"> <b>지역</b>: ${location}</p>
                                                 <p class="social_github"> <b>Gitbub</b>: ${social_list_github}</p>
+                                                <p class="github_repo_count"> <b>Gitbub Repo 수</b>: ${github_repo_count}</p>
                                                 <p class="specialty"> <b>주특기</b>: ${specialty}</p>
+                                                <p class="target_industry"> <b>관심 산업/회사</b>: ${target_industry}</p>
                                                 <p class="interest"> <b>관심사/취미</b>: ${interset}</p>
                                                 
                                                 <p class="program"> <b>프로그램</b>: ${program}</p>                                                
                                                 <p class="course"> <b>수강코스</b>: ${course}</p>
                                                 <p class="cohort"> <b>기수</b>: ${cohort}기 </p>
-                                                <p class="team"> <b>모든 팀들</b>: ${team} </p>
+                                                <p class="team"> <b> 프로그램간 함께 했던 팀(들)</b>: ${team} </p>
+                                                
+                                                <p class="resolution"> <b> 하고 싶은 말</b>: ${resolution} </p>
                                                 <button class='see_more_btn' onclick="see_user_profile('/profile/${user_id}')">더보기</button>
                                             </div>
                                         </div>
@@ -122,6 +154,53 @@
         // }
         //     // ---- 카드 좋아요 끝 ---
 
+        function stack_rows(rows) {
+            $('#cards-box').empty()
+            rows.forEach((a) => {
+                let user_id = a['user_id']
+                let nickname = a['user_nickname']
+                let mbti = a['MBTI']
+                let location = a['location']
+                let social_list_github = a['social_list']
+                let specialty = a['specialty']
+                let interset = a['interest']
+
+                let program = a['program']
+                let course = a['course']
+                let cohort = a['cohort']
+                let team = a['team']
+
+                let profile_image = a['profile_image']
+                let resolution = a['resolution']
+                let has_card = a['has_card']
+
+                let temp_html = ``
+
+                if (has_card == 1){
+                    temp_html =
+                                `<div class="col">
+                                    <div class="card h-100">
+                                        <img src="${profile_image}" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h2 class="nickname"> 닉네임: ${nickname}</h2>
+                                            <p class="mbti"> <b>MBTI</b>: ${mbti}</p>                                                
+                                            <p class="location"> <b>지역</b>: ${location}</p>
+                                            <p class="social_github"> <b>Gitbub</b>: ${social_list_github}</p>
+                                            <p class="specialty"> <b>주특기</b>: ${specialty}</p>
+                                            <p class="interest"> <b>관심사/취미</b>: ${interset}</p>
+                                            
+                                            <p class="program"> <b>프로그램</b>: ${program}</p>                                                
+                                            <p class="course"> <b>수강코스</b>: ${course}</p>
+                                            <p class="cohort"> <b>기수</b>: ${cohort}기 </p>
+                                            <p class="team"> <b>모든 팀들</b>: ${team} </p>
+                                            <button class='see_more_btn' onclick="see_user_profile('/profile/${user_id}')">더보기</button>
+                                        </div>
+                                    </div>
+                                </div>`
+                    $('#cards-box').append(temp_html)
+                }
+            })
+        }
     </script>
 
 
@@ -133,29 +212,19 @@
     </header>
 
     <div class="mytitle">
-        <h1> Glimpse: 우리 기수 쓱 한 번에 보기 👀</h1>
+        <h1> Glimpse: 우리 기수 "쓱" 한 번에 보기 👀</h1>
     </div>
 
     <div class="left-navbar">
         <div class="left-navbar-menu">
-            <p>category</p>
+            <p>Filter</p>
         </div>
         <div class="filter-list-group">
-            <div class="category" type="button" id="category-1">
-                <div> 주특기 </div>
-            </div>
-            <div class="category" id="category-2">
-                <div> MBTI </div>
-            </div>
-            <div class="category" id="category-3">
-                <div> 프로그램 </div>
-            </div>
-            <div class="category" id="category-4">
-                <div> 기수 </div>
-            </div>
-            <div class="category" id="category-5">
-                <div> 팀 </div>
-            </div>
+            {% include "specialty.html" %}
+            {% include "mbti.html" %}
+            {% include "program.html" %}
+            {% include "cohort.html" %}
+            {% include "team.html" %}
         </div>
     </div>
 
