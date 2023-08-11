@@ -138,14 +138,19 @@
                 })
             })
         }
-        
-        // 프로필 출력하기
-        $(document).ready(function () {
+
+        function whoareyou() {
             let user_id = '{{ user_id }}'
 
             if(user_id == 'me') {
                 user_id = localStorage.getItem(KEY_USER_ID)
             }
+            return user_id
+        }
+        
+        // 프로필 출력하기
+        $(document).ready(function () {
+            let user_id = whoareyou()
 
             show_register(user_id);
         });
