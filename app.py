@@ -243,7 +243,7 @@ def register_get():
 
 
 # JE 댓글 저장하기
-@app.route("/api/users/${user_id}/comment", methods=["POST"])
+@app.route("/api/users/<user_id>/comment", methods=["POST"])
 def comment_post(user_id):
     comment_receive = request.form['comment_give']
 

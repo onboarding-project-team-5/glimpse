@@ -153,11 +153,12 @@
         // 댓글comment저장하기
         function save_comment() {
             let comment = $('#comment').val()
+            let user_id = whoareyou()
 
             let formData = new FormData();
             formData.append("comment_give", comment);
 
-            fetch('/api/users/${user_id}/comment', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
+            fetch(`/api/users/${user_id}/comment`, { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
                 alert(data["msg"]);
                 window.location.reload();
             });
@@ -169,7 +170,7 @@
             show_user_comments(user_id);
         });
         function show_user_comments(user_id) {
-            fetch('/profile/<user_id>/comments').then(res => res.json()).then(data => {
+            fetch(`/profile/${user_id}/comments`).then(res => res.json()).then(data => {
                 let rows = data['result']
                 $('#comment-list').empty()
                 rows.forEach((a) => {
