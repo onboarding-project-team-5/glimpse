@@ -3,7 +3,7 @@
 
 <head>
     {% include "head.html" %}
-    
+
     <style>
         /* Profile 상단 소개글 */
         .introduce {
@@ -80,35 +80,7 @@
         }
     </style>
     <script>
-        // 댓글comment저장하기
-        function save_comment() {
-            let comment = $('#comment').val()
 
-            let formData = new FormData();
-            formData.append("comment_give", comment);
-
-            fetch('/comment', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
-                alert(data["msg"]);
-                window.location.reload();
-            });
-        }
-        // 댓글comment보여주기
-        $(document).ready(function () {
-            show_comment();
-        });
-        function show_comment() {
-            fetch('/comment').then(res => res.json()).then(data => {
-                let rows = data['result']
-                $('#comment-list').empty()
-                rows.forEach((a) => {
-                    let comment = a['comment']
-                    let temp_html = `<li>
-                                  <h2> 💭${comment}</h2>
-                              </li>`
-                    $('#comment-list').append(temp_html)
-                })
-            })
-        }
         // 로그인한 유저 uid 저장하는 function: 로컬스토리지 저장해서 사용
         function whoareyou() {
             let user_id = '{{ user_id }}'
@@ -118,7 +90,7 @@
             }
             return user_id
         }
-        
+
         // 프로필 출력하기
         $(document).ready(function () {
             let user_id = whoareyou()
@@ -130,8 +102,8 @@
             fetch(`/api/users/${user_id}`).then((res) => res.json()).then((data) => {
                 let a = data['result']
                 $('#profile-box').empty()
-                
-                let profile_image =a['profile_image']
+
+                let profile_image = a['profile_image']
                 let user_nickname = a['user_nickname']
                 let MBTI = a['MBTI']
                 let location = a['location']
@@ -164,6 +136,43 @@
                                     <br>
                                 </li>`
                 $('#profile-box').append(temp_html)
+            })
+        }
+
+        // 댓글comment저장하기
+        function save_comment() {
+            let comment = $('#comment').val()
+
+            let formData = new FormData();
+            formData.append("comment_give", comment);
+
+            fetch('/api/users/${user_id}/comment', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
+                alert(data["msg"]);
+                window.location.reload();
+            });
+        }
+        // 댓글comment보여주기
+        $(document).ready(function () {
+            let user_id = whoareyou()
+            
+            show_user_comments(user_id);
+        });
+        function show_user_comments(user_id) {
+            fetch('/profile/<user_id>/comments').then(res => res.json()).then(data => {
+                let rows = data['result']
+                $('#comment-list').empty()
+                rows.forEach((a) => {
+                    let comment = a['comment']
+                    let user_id = a['user_id']
+
+                    let temp_html = ``
+                    if (user_id = user_id){
+                        temp_html = `<li>
+                                        <h2> 💭${comment}</h2>
+                                    </li>`
+                    }                      
+                    $('#comment-list').append(temp_html)
+                })
             })
         }
     </script>
