@@ -23,14 +23,14 @@
 
     <!-- 공통 CSS -->
     <link rel="stylesheet" href="/static/css/style.css">
+    
+    {% include "head.html" %}
 
     <style>
 
     </style>
 
 
-    <!-- 공통 JS -->
-    <script src="/static/js/script.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -113,6 +113,73 @@
                 })
             })
         }
+
+        // // --- 카드 좋아요 시작 ---
+        // // Operations
+        // function countPlus(likeCnt) {
+        //     likeCnt++;
+        //     document.querySelector(".like_count").innerHTML = "좋아요 " + likeCnt + "개";
+
+        //     //카드 좋아요 업데이트 호출
+        //     updateLike(likeCnt);
+        // }
+
+        // // POST
+        // function addLike(likeCnt) {
+        // }
+
+        // // PUT 카드 좋아요 업데이트
+        // function updateLike(count) {
+        // }
+        //     // ---- 카드 좋아요 끝 ---
+
+        function stack_rows(rows) {
+            $('#cards-box').empty()
+            rows.forEach((a) => {
+                let user_id = a['user_id']
+                let nickname = a['user_nickname']
+                let mbti = a['MBTI']
+                let location = a['location']
+                let social_list_github = a['social_list']
+                let specialty = a['specialty']
+                let interset = a['interest']
+
+                let program = a['program']
+                let course = a['course']
+                let cohort = a['cohort']
+                let team = a['team']
+
+                let profile_image = a['profile_image']
+                let resolution = a['resolution']
+                let has_card = a['has_card']
+
+                let temp_html = ``
+
+                if (has_card == 1){
+                    temp_html =
+                                `<div class="col">
+                                    <div class="card h-100">
+                                        <img src="${profile_image}" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h2 class="nickname"> 닉네임: ${nickname}</h2>
+                                            <p class="mbti"> <b>MBTI</b>: ${mbti}</p>                                                
+                                            <p class="location"> <b>지역</b>: ${location}</p>
+                                            <p class="social_github"> <b>Gitbub</b>: ${social_list_github}</p>
+                                            <p class="specialty"> <b>주특기</b>: ${specialty}</p>
+                                            <p class="interest"> <b>관심사/취미</b>: ${interset}</p>
+                                            
+                                            <p class="program"> <b>프로그램</b>: ${program}</p>                                                
+                                            <p class="course"> <b>수강코스</b>: ${course}</p>
+                                            <p class="cohort"> <b>기수</b>: ${cohort}기 </p>
+                                            <p class="team"> <b>모든 팀들</b>: ${team} </p>
+                                            <button class='see_more_btn' onclick="see_user_profile('/profile/${user_id}')">더보기</button>
+                                        </div>
+                                    </div>
+                                </div>`
+                    $('#cards-box').append(temp_html)
+                }
+            })
+        }
     </script>
 
 
@@ -132,21 +199,11 @@
             <p>category</p>
         </div>
         <div class="filter-list-group">
-            <div class="category" type="button" id="category-1">
-                <div> 주특기 </div>
-            </div>
-            <div class="category" id="category-2">
-                <div> MBTI </div>
-            </div>
-            <div class="category" id="category-3">
-                <div> 프로그램 </div>
-            </div>
-            <div class="category" id="category-4">
-                <div> 기수 </div>
-            </div>
-            <div class="category" id="category-5">
-                <div> 팀 </div>
-            </div>
+            {% include "specialty.html" %}
+            {% include "mbti.html" %}
+            {% include "program.html" %}
+            {% include "cohort.html" %}
+            {% include "team.html" %}
         </div>
     </div>
 

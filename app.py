@@ -28,7 +28,7 @@ import re
 # 메인 페이지
 @app.route('/')
 def page_main():
-    return render_template('index.html')
+    return render_template('index.html', **collect_distinct_items())
 
 # (JH) 회원가입 페이지
 @app.route('/signup')
@@ -128,6 +128,31 @@ def query_signup():
     db.user_list.insert_one(doc)
     return {'msg': '회원 가입 성공'}
 
+# (JH) 중복 제거를 위한 func
+def get_distinct_items(col):
+    distinct_values = db.user_list.distinct(col)
+    distinct_values = [
+        i 
+        for i in distinct_values 
+        if i and i != 'undefined' and i != '선택'
+        ]
+    return distinct_values
+
+# (JH) 각 칼럼마다 중복되지 않는 칼럼값 가져오기.
+def collect_distinct_items():
+    return {
+        "cohort": get_distinct_items("cohort"),
+        "mbti": get_distinct_items("MBTI"),
+        "program": get_distinct_items("program"),
+        "specialty": get_distinct_items("specialty"),
+        "team": get_distinct_items("team"),
+    }
+    
+# (JH) 특정 값에 일치하는 카드들 목록 load
+@app.route('/api/<column>/<item>/cards')
+def query_team_cards(column, item):
+    result = list(db.user_list.find({column: item}, {'_id':False}))
+    return {"result": result}
 
 
 # (YJ) 카드 등록
