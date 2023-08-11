@@ -3,13 +3,24 @@
 
 <head>
     {% include "head.html" %}
-    
+
     <style>
         /* Profile 상단 소개글 */
         .introduce {
             width: 600px;
             margin: 70px auto 0px auto;
             padding-bottom: 70px;
+        }
+
+        /* 프로필 폼 담는 구간 */
+        .profile-text{
+            color : black;
+            height: 750px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size : 20px;
         }
 
         /* Glimpse 배경이미지 */
@@ -80,45 +91,17 @@
         }
     </style>
     <script>
-        // 댓글comment저장하기
-        function save_comment() {
-            let comment = $('#comment').val()
 
-            let formData = new FormData();
-            formData.append("comment_give", comment);
-
-            fetch('/comment', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
-                alert(data["msg"]);
-                window.location.reload();
-            });
-        }
-        // 댓글comment보여주기
-        $(document).ready(function () {
-            show_comment();
-        });
-        function show_comment() {
-            fetch('/comment').then(res => res.json()).then(data => {
-                let rows = data['result']
-                $('#comment-list').empty()
-                rows.forEach((a) => {
-                    let comment = a['comment']
-                    let temp_html = `<li>
-                                  <h2> 💭${comment}</h2>
-                              </li>`
-                    $('#comment-list').append(temp_html)
-                })
-            })
-        }
         // 로그인한 유저 uid 저장하는 function: 로컬스토리지 저장해서 사용
         function whoareyou() {
             let user_id = '{{ user_id }}'
 
-            if(user_id == 'me') {
+            if (user_id == 'me') {
                 user_id = localStorage.getItem(KEY_USER_ID)
             }
             return user_id
         }
-        
+
         // 프로필 출력하기
         $(document).ready(function () {
             let user_id = whoareyou()
@@ -130,8 +113,8 @@
             fetch(`/api/users/${user_id}`).then((res) => res.json()).then((data) => {
                 let a = data['result']
                 $('#profile-box').empty()
-                
-                let profile_image =a['profile_image']
+
+                let profile_image = a['profile_image']
                 let user_nickname = a['user_nickname']
                 let MBTI = a['MBTI']
                 let location = a['location']
@@ -143,7 +126,7 @@
                 let team = a['team']
 
                 let social_list = []
-                for(const key in a['social_list'][0]) {
+                for (const key in a['social_list'][0]) {
                     let value = a['social_list'][0][key]
                     social_list.push(`<a href="${value}">${key}</a>`)
                 }
@@ -166,6 +149,43 @@
                 $('#profile-box').append(temp_html)
             })
         }
+
+        // 댓글comment저장하기
+        function save_comment() {
+            let comment = $('#comment').val()
+
+            let formData = new FormData();
+            formData.append("comment_give", comment);
+
+            fetch('/api/users/${user_id}/comment', { method: "POST", body: formData, }).then((response) => response.json()).then((data) => {
+                alert(data["msg"]);
+                window.location.reload();
+            });
+        }
+        // 댓글comment보여주기
+        $(document).ready(function () {
+            let user_id = whoareyou()
+            
+            show_user_comments(user_id);
+        });
+        function show_user_comments(user_id) {
+            fetch('/profile/<user_id>/comments').then(res => res.json()).then(data => {
+                let rows = data['result']
+                $('#comment-list').empty()
+                rows.forEach((a) => {
+                    let comment = a['comment']
+                    let user_id = a['user_id']
+
+                    let temp_html = ``
+                    if (user_id == user_id){
+                        temp_html = `<li>
+                                        <h2> 💭${comment}</h2>
+                                    </li>`
+                    }                
+                    $('#comment-list').append(temp_html)
+                })
+            })
+        }
     </script>
 
 </head>
@@ -185,9 +205,20 @@
             스파르타 코딩클럽 멤버만 들어올 수 있는 커뮤니티<br />
             프로필을 살짝 보고 가세요 👀
         </p>
-        <div id="profile-box">
+        <div class="profile-text" id="profile-box">
             <li>
-                프로필이 보여요
+                <p>sparta</p>
+                <p> 닉네임 : 뿅아리 </p>
+                <p> MBTI :ENTJ </p>
+                <p> 지역 :서울</p>
+                <p> sns : github </p>
+                <p> 주특기 : Spring</p>
+                <p> 취미 : 테니스 </p>
+                <p> 프로그램 : 항해99 </p>
+                <p> 과정 : 웹개발 종합반</p>
+                <p> 기수 : 16기 </p>
+                <p> 조 : 5조 </p>
+                <br>
             </li>
         </div>
 

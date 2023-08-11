@@ -236,15 +236,15 @@ def cards_get():
 
 
 # JE 프로필 register 내용 출력하기
-@app.route("/register", methods=["GET"])
+@app.route("/api/users/${user_id}", methods=["GET"])
 def register_get():
     register_data = list(db.user_list.find({},{'_id':False}))
     return jsonify({'result':register_data})
 
 
 # JE 댓글 저장하기
-@app.route("/comment", methods=["POST"])
-def comment_post():
+@app.route("/api/users/${user_id}/comment", methods=["POST"])
+def comment_post(user_id):
     comment_receive = request.form['comment_give']
 
     comment_list = list(db.comment.find({}, {'_id': False}))
@@ -252,18 +252,19 @@ def comment_post():
     doc = {
         'num':count,  #버킷 등록 시, db에서 특정 버킷을 찾기 위해 'num' 이라는 고유 값 부여
         'comment' :comment_receive,
-        'done' : 0   #'done' key값을 추가 해 각 버킷의 완료 상태 구분(0 = 미완료, 1 = 완료)
+        'user_id': user_id  #'done' key값을 추가 해 각 버킷의 완료 상태 구분(0 = 미완료, 1 = 완료)
     }
     db.comment.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
-# JE 댓글 출력하기
-@app.route("/comment", methods=["GET"])
-def comment_get():
-    all_comments = list(db.comment.find({}, {'_id': False}))
-    return jsonify({'result': all_comments})
+
+# (JE) 개인 프로필 페이지 - 댓글 출력
+@app.route('/profile/<user_id>/comments', methods=["GET"])
+def profile_comments(user_id):
+    user_comments = list(db.comment.find({'user_id': user_id}, {'_id': False}))
+    return jsonify({'result': user_comments})
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=5002, debug=True)
  
