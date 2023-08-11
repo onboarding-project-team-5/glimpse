@@ -69,10 +69,9 @@
                     let nickname = a['user_nickname']
                     let mbti = a['MBTI']
                     let location = a['location']
-                    let social_list_github = a['social_list'][0]['github']
+                    let social_list_github = a['social_list']
                     let specialty = a['specialty']
                     let interset = a['interest']
-                    let likes = a['likes']
 
                     let program = a['program']
                     let course = a['course']
@@ -81,9 +80,12 @@
 
                     let profile_image = a['profile_image']
                     let resolution = a['resolution']
+                    let has_card = a['has_card']
 
+                    let temp_html = ``
 
-                    let temp_html =
+                    if (has_card == 1){
+                        temp_html =
                                     `<div class="col">
                                         <div class="card h-100">
                                             <img src="${profile_image}" class="card-img-top" alt="...">
@@ -103,8 +105,10 @@
                                             </div>
                                         </div>
                                     </div>`
+                        $('#cards-box').append(temp_html)
+                    }
 
-                    $('#cards-box').append(temp_html)
+                    
                 })
             })
         }

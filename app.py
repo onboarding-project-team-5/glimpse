@@ -126,7 +126,7 @@ def home():
 
 @app.route("/register", methods=["POST"])
 def register_post():
-    nickname_receive = request.form['nickname_give']
+    uid = request.form['uid']
     MBTI_receive = request.form['MBTI_give']
     location_receive = request.form['location_give']
     social_receive = request.form['social_give']
@@ -141,7 +141,6 @@ def register_post():
     
     # 이미지 추가
     doc = {
-        'user_nickname': nickname_receive,
         'MBTI' : MBTI_receive,
         'location': location_receive,
         'social_list': social_receive,
@@ -151,10 +150,11 @@ def register_post():
         'course' : course_receive,
         'cohort' : cohort_receive,
         'team' : team_receive,
-        'image' : image_receive,
-        'resolution' : resolution_receive
+        'profile_image' : image_receive,
+        'resolution' : resolution_receive,
+        'has_card' : 1,
     }
-    db.cards.insert_one(doc)
+    db.user_list.update_one({'user_id': uid},{'$set':doc})
     # 성공여부 추가, 성공 시 fuction 에 사용
     return jsonify({'result': 'success', 'msg': '저장 완료!'})
 

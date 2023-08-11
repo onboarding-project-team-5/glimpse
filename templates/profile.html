@@ -154,9 +154,14 @@
             fetch(`/api/users/${user_id}`).then((res) => res.json()).then((data) => {
                 let a = data['result']
                 $('#profile-box').empty()
+<<<<<<< HEAD
 
                 let image =a['image']
                 let user_id = a['user_id']
+=======
+                
+                let profile_image =a['profile_image']
+>>>>>>> a54139d2c72c6b341aedcf4617a98252a746b28a
                 let user_nickname = a['user_nickname']
                 let MBTI = a['MBTI']
                 let location = a['location']
@@ -175,8 +180,12 @@
                 social_list.join(", ")
 
                 let temp_html = `<li>
+<<<<<<< HEAD
                                     <p>${image}</p>
                                     <p> ID :${user_id}</p>
+=======
+                                    <img src="${profile_image}" style="width: 100px;" />
+>>>>>>> a54139d2c72c6b341aedcf4617a98252a746b28a
                                     <p> 닉네임 : ${user_nickname}</p>
                                     <p> MBTI :${MBTI}</p>
                                     <p> 지역 :${location}</p>
